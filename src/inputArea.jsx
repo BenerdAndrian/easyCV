@@ -9,7 +9,7 @@ function Label_Input({labelText,inputType,forProp,defaultValue}){
     )
 }
 //create button component to click
-function Button({text,icon,style,theClass}){
+function Button({text,icon,style,theClass,onClick}){
     if(!icon){
         return (
             <button className={theClass} style={style}>{text}</button>
@@ -17,10 +17,10 @@ function Button({text,icon,style,theClass}){
     }
     return (
 
-        <button className={theClass} style={style}>
+        <button onClick={onClick} className={theClass} style={style}>
            <img src={icon} alt="icon" />
            <p>{text}</p>
         </button>
     )
 }
-export{Label_Input}
+export{Label_Input,Button}
