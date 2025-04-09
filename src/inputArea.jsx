@@ -1,9 +1,12 @@
 //create input component which takes label and input and properties related included as props
-function Label_Input({labelText,inputType,forProp,defaultValue}){
+function Label_Input({labelText,inputType,forProp,defaultValue,toTake}){
+    const takeTheInput=(e)=>{
+       toTake(e.target.value);
+    }
     return(
         <div className="area">
             <label htmlFor={forProp}>{labelText}</label>
-            <input defaultValue={defaultValue} id={forProp} type={inputType} />
+            <input onChange={takeTheInput} defaultValue={defaultValue} id={forProp} type={inputType} />
         </div>
        
     )

@@ -15,11 +15,13 @@ html{
 }
 .formManipulate{
     display:flex;
+    margin-top:10rem;
 }
 .formGenerate{
     border:1px solid black;
-    width:30vw;
+    width:28vw;
     padding:1rem;
+    height:56%;
 }
 .formSwitchBtn button{
     width:100%;
@@ -38,4 +40,85 @@ html{
 .formRow{
     display:flex;
     margin-bottom:1rem;
+}
+#CV{
+    display:grid;
+    grid-template-rows:min-content 1fr;
+    width:100%;
+}
+.CVHeader{
+    grid-row:1/2;
+    padding:1rem;
+}
+.CVHeader h2{
+    font-size:3rem;
+    direction:rtl;
+}
+.CVHeader h3{
+    font-size:2.3rem;
+    direction:rtl;
+}
+.CVHeader p{
+    direction:rtl;
+}
+.CVMain{
+    display:grid;
+    grid-row:2/3;
+    grid-template-rows: 1fr 1fr;
+    border:1px solid;
+}
+.row1{
+    grid-row:1/2;
+    display:grid;
+    grid-template-columns:1fr 100px;
+    border:1px solid;
+}
+.row2{
+    grid-row:2/3;
+    display:grid;
+    grid-template-columns:1fr 100px;
+    border:1px solid;
+}
+.workHistorySection{
+    grid-column:1/2;
+    border:1px solid;
+}
+.contactSection{
+    grid-column:2/3;
+    border:1px solid;
+}
+.educationSection{
+    grid-column:1/2;
+    border:1px solid;
+}
+.skillsSection{
+    grid-column:2/3;
+    border:1px solid;
+}
+.theApp{
+    display:flex;
+    border:1px solid;
+    width:100vw;
+    height:100%;
+}
+#CV{
+    height:100vh;
+}
+.CVHeader{
+    background-color:rgb(31, 31, 121);
+    color:white;
+}
+.educationBtn,.generalInfoBtn,.workHistoryBtn,.skillsBtn{
+    padding:0.5rem 1rem;
+}
+.btnList{
+    margin-right:1rem;
+}
+.fullname{
+    direction:rtl;
+    font-size:3rem;
+    font-weight:bold;
+}
+.fullname span:first-child{
+    margin-right:0.5rem;
 }

@@ -5,29 +5,33 @@ import skillsIcon from './assets/img/skills.svg'
 import workIcon from './assets/img/work.svg'
 import {useState} from 'react'
 //create generalInfo form component
-function GenerateGeneralInfo(){
+function GenerateGeneralInfo({getFirstNameValue,getLastNameValue,getEmailValue,getPhoneValue,getLocationValue,getOccupationValue,getLanguageValue,getGitValue,getSummary}){
+  const takeData=(e)=>{
+     getSummary(e.target.value)
+  }
+
     return(
         <form id="GeneralInfoForm">
             <div className="formRow">
-            <Label_Input labelText="First Name: " inputType="text" forProp="fname" defaultValue="Ben" />
-            <Label_Input labelText="Last Name: " inputType="text" forProp="lname" defaultValue="Andrian" />
+            <Label_Input toTake={(value)=>getFirstNameValue(value)} labelText="First Name: " inputType="text" forProp="fname" defaultValue="Ben" />
+            <Label_Input toTake={(value)=>getLastNameValue(value)} labelText="Last Name: " inputType="text" forProp="lname" defaultValue="Andrian" />
             </div>
            <div className="formRow">
-           <Label_Input labelText="Email: " inputType="email" forProp="email" defaultValue="Benerd2243@gmail.com" />
-           <Label_Input labelText="Phone: " inputType="tel" forProp="phone" defaultValue="+84 988 637 203" />
+           <Label_Input toTake={(value)=>getEmailValue(value)} labelText="Email: " inputType="email" forProp="email" defaultValue="Benerd2243@gmail.com" />
+           <Label_Input toTake={getPhoneValue} labelText="Phone: " inputType="tel" forProp="phone" defaultValue="+84 988 637 203" />
            </div>
           <div className="formRow">
-          <Label_Input labelText="Location: " inputType="text" forProp="location" defaultValue="District 12,HCMC,Vietnam" />
-          <Label_Input labelText="Occupation: " inputType="text" forProp="occupation" defaultValue="Student" />
+          <Label_Input toTake={(value)=>getLocationValue(value)} labelText="Location: " inputType="text" forProp="location" defaultValue="District 12,HCMC,Vietnam" />
+          <Label_Input toTake={getOccupationValue} labelText="Occupation: " inputType="text" forProp="occupation" defaultValue="Student" />
           </div>
           <div className="formRow">
-          <Label_Input labelText="Languages: " inputType="text" forProp="language" defaultValue="Vietnamese,English" />
-          <Label_Input labelText="Github: " inputType="text" forProp="git" defaultValue="https://github.com/BenerdAndrian" />
+          <Label_Input toTake={(value)=>getLanguageValue(value)} labelText="Languages: " inputType="text" forProp="language" defaultValue="Vietnamese,English" />
+          <Label_Input toTake={(value)=>getGitValue(value)} labelText="Github: " inputType="text" forProp="git" defaultValue="https://github.com/BenerdAndrian" />
           </div>
           
            <div className="summary">
             <label htmlFor="sum">Summary</label>
-            <textarea cols="10" rows="5" name="summary" id="sum"></textarea>
+            <textarea onChange={takeData} placeholder="i love coding on the beach..." cols="10" rows="5" name="summary" id="sum"></textarea>
            </div>
         </form>
     )
@@ -91,7 +95,7 @@ function SkillsInfo(){
     )
 }
 //create formSwitchinteract component
-function FormSwitchInteract(){
+function FormSwitchInteract({generalProps,eduProps,skillsProps,workProps}){
    const [theForm,setForm]=useState("general")
    const generateGeneralInfoForm=()=>{
     setForm('general');
@@ -127,7 +131,17 @@ function FormSwitchInteract(){
         </nav>
     </div>
     <div className="formGenerate">
-      {theForm==="general" && <GenerateGeneralInfo/>}
+      {theForm==="general" && <GenerateGeneralInfo 
+      getFirstNameValue={(value=>generalProps.getFirstNameValue(value))}
+      getLastNameValue={(value)=>generalProps.getLastNameValue(value)}
+      getEmailValue={(value)=>generalProps.getEmailValue(value)}
+      getPhoneValue={(value)=>generalProps.getPhoneValue(value)}
+      getLocationValue={(value)=>generalProps.getLocationValue(value)}
+      getOccupationValue={(value)=>generalProps.getOccupationValue(value)}
+      getLanguageValue={(value)=>generalProps.getLanguageValue(value)}
+      getGitValue={(value)=>generalProps.getGitValue(value)}
+      getSummary={(value)=>generalProps.getSummary(value)}
+      />}
       {theForm==="edu" && <EducationInfo/>}
       {theForm==="skills" && <SkillsInfo/>}
       {theForm==="work" && <WorkHistoryInfo/>}
@@ -136,4 +150,5 @@ function FormSwitchInteract(){
     
  )
 }
+
 export {FormSwitchInteract}

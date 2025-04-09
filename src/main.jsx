@@ -6,6 +6,6 @@ import './styles/styles.css'
 import { FormSwitchInteract } from './form.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <FormSwitchInteract />
+    <App />
   </StrictMode>,
 )
