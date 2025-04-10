@@ -21,7 +21,7 @@ html{
     border:1px solid black;
     width:28vw;
     padding:1rem;
-    height:56%;
+    height:60%;
 }
 .formSwitchBtn button{
     width:100%;
@@ -152,4 +152,10 @@ html{
     background-color:red;
     height:10vh;
     padding:1rem;
+}
+.flex{
+    display:flex;
+}
+.workAnswer{
+    margin-left:1rem;
 }

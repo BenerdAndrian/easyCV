@@ -7,6 +7,7 @@ function GenerateCV(props){
     console.log(day)
     const data=props.receive;
     const eduData=props.eduData;
+    const workData=props.workData;
     console.log(data.isStudy)
     console.log('data ne: ',eduData)
     return (
@@ -25,6 +26,23 @@ function GenerateCV(props){
                         <img src={workIcon} alt="work icon" />
                         <span>Work History</span>
                         <hr />
+                        <ul className="eduList">
+                        {workData.map((data,i)=> {return <li key={i}>
+                            <div className="theDateFormat">
+                            <h2>{data.role}</h2>
+                            <p className="dateFormat">
+                                <span>{data.workStartDate}</span>
+                                <span>---</span>
+                                <span>
+                                    {data.isWorking?'Current':data.workEndDate}
+                                   
+                                </span>
+                            </p>
+                            </div>
+                            <h3>{data.companyName}</h3>
+                            <p>{data.roleDescription}</p>
+                            </li>} )}
+                        </ul>
                     </div>
                     <div className="contactSection"></div>
                 </div>

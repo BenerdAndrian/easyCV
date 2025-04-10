@@ -36,6 +36,16 @@ const [eduData,setEduData]=useState([
     isStudy:'false',
   }
 ])
+const [workData,setWorkData]=useState([
+  {
+        companyName:'Apple Inc',
+        role:'Code Janitor',
+        workStartDate:'2020-04-02',
+        workEndDate:'2023-11-22',
+        roleDescription:'Clean code for all Apple Software and floors',
+        isWorking:'false',
+  }
+])
 const [generalData,setGeneralData]=useState({
     firstName:"Ben",
     lastName:"Andrian",
@@ -126,6 +136,9 @@ const [generalData,setGeneralData]=useState({
    const theData={...data,isWorking:value};
    setData(theData)
   }
+  const sendWorkInfoList=(value)=>{
+    setWorkData(value)
+  }
  // define skill data take function
  const getCategory=(value)=>{
   const theData={...data,skillCategory:value}
@@ -146,12 +159,12 @@ const [generalData,setGeneralData]=useState({
   ////store all the education Info props inside eduProps
   const eduProps={getSchoolName,getDegree,getStudyStartDate,getStudyEndDate,getIsStudy,sendDataList}
   //store all the work history props inside workHistoryProps
-  const workHistoryProps={getCompanyName,getRole,getWorkEndDate,getWorkStartDate,getRoleDescription,getIsWorking}
+  const workHistoryProps={getCompanyName,getRole,getWorkEndDate,getWorkStartDate,getRoleDescription,getIsWorking,sendWorkInfoList}
   //store all the skill props inside skillProps
   const skillProps={getCategory,getSkillDetail}
   return <div className="theApp">
    <FormSwitchInteract skillsProps={skillProps} workHistoryProps={workHistoryProps} generalProps={generalProps} eduProps={eduProps} />
-   <GenerateCV eduData={eduData} receive={data}/>
+   <GenerateCV workData={workData} eduData={eduData} receive={data}/>
   </div>
  
 }

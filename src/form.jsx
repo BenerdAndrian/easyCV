@@ -147,27 +147,105 @@ function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDat
     )
 }
 //create work history form component
-function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate,getRoleDescription,getIsWorking}){
+function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate,getRoleDescription,getIsWorking,sendWorkInfoList}){
+    const [workInfo,setWorkInfo]=useState({
+        companyName:'',
+        role:'',
+        workStartDate:'',
+        workEndDate:'',
+        roleDescription:'',
+        isWorking:'',
+    })
+    const [workInfoList,setWorkInfoList]=useState([{
+        companyName:'Apple Inc',
+        role:'Code Janitor',
+        workStartDate:'2020-04-02',
+        workEndDate:'2023-11-22',
+        roleDescription:'Clean code for all Apple Software and floors',
+        isWorking:'false',
+    }])
+    const [editState,setEditState]=useState(false)
+    const [index,setIndex]=useState()
+    const toSave=(editState,index)=>{
+      if(!editState){
+        const updateList=[...workInfoList,workInfo]
+        setWorkInfoList(updateList)
+        sendWorkInfoList(updateList)
+      }else{
+       const updatedList=Array.from(workInfoList)
+      updatedList[index].companyName=workInfo.companyName;
+      updatedList[index].role=workInfo.role;
+      updatedList[index].workStartDate=workInfo.workStartDate;
+      updatedList[index].workEndDate=workInfo.workEndDate;
+      updatedList[index].roleDescription=workInfo.roleDescription;
+      updatedList[index].isWorking=workInfo.isWorking;
+       sendWorkInfoList(updatedList)
+       setEditState(false);
+      }
+      setWorkInfo({
+        companyName:'',
+        role:'',
+        workStartDate:'',
+        workEndDate:'',
+        roleDescription:'',
+        isWorking:'',
+    })
+    }
+    const editInfo=(i)=>{
+        setEditState(true)
+      const info=workInfoList[i];
+      setWorkInfo({
+        companyName:info.companyName,
+        role:info.role,
+        workStartDate:info.workStartDate,
+        workEndDate:info.workEndDate,
+        roleDescription:info.roleDescription,
+        isWorking:info.isWorking,
+      })
+      setIndex(i)
+    }
+    const deleteInfo=(i)=>{
+        const updatedList=Array.from(workInfoList);
+        updatedList.splice(i,1);
+        sendWorkInfoList(updatedList)
+        setWorkInfoList(updatedList)
+    }
+    const toClear=()=>{
+        setWorkInfo({
+            companyName:'',
+            role:'',
+            workStartDate:'',
+            workEndDate:'',
+            roleDescription:'',
+            isWorking:'',
+        })
+    }
     const takeData=(e)=>{
         getIsWorking(e.target.checked)
+        setWorkInfo({...workInfo,isWorking:e.tartget.checked})
     }
     return (
         <form id="workHistory">
-            <Label_Input toTake={(value)=>getCompanyName(value)}  labelText="Company: " inputType="text" forProp="company" />
-           <Label_Input toTake={(value)=>getRole(value)} labelText="Role: " inputType="text" forProp="role" />
-           <Label_Input toTake={(value)=>getWorkStartDate(value)} labelText="Start Date: " inputType="date" forProp="startWorkDate" />
-           <Label_Input toTake={(value)=>getWorkEndDate(value)} labelText="End Date: " inputType="date" forProp="endWorkDate" />
-           <div className="workQuestion">
+            <Label_Input value={workInfo.companyName} toTake={(value)=>{getCompanyName(value),setWorkInfo({...workInfo,companyName:value})}}  labelText="Company: " inputType="text" forProp="company" />
+           <Label_Input value={workInfo.role} toTake={(value)=>{getRole(value),setWorkInfo({...workInfo,role:value})}} labelText="Role: " inputType="text" forProp="role" />
+           <Label_Input value={workInfo.workStartDate} toTake={(value)=>{getWorkStartDate(value),setWorkInfo({...workInfo,workStartDate:value})}} labelText="Start Date: " inputType="date" forProp="startWorkDate" />
+           <Label_Input value={workInfo.workEndDate} toTake={(value)=>{getWorkEndDate(value),setWorkInfo({...workInfo,workEndDate:value})}} labelText="End Date: " inputType="date" forProp="endWorkDate" />
+           <div className="workQuestion flex">
             <label htmlFor="workAns">Do You Still Working Here?</label>
             <div className="workAnswer">
-                <input onChange={takeData} type="checkbox" id="workAns" />
+                <input value={workInfo.isWorking} onChange={takeData} type="checkbox" id="workAns" />
                 <span>Yes</span>
             </div>
            </div>
-           <Label_Input toTake={(value)=>getRoleDescription(value)} labelText="Role Description: " inputType="text" forProp="roleDes"/>
+           <Label_Input value={workInfo.roleDescription} toTake={(value)=>{getRoleDescription(value),setWorkInfo({...workInfo,roleDescription:value})}} labelText="Role Description: " inputType="text" forProp="roleDes"/>
            <div className="btnList">
-            <Button text="Save" theClass="toSave"/>
-            <Button text="Clear" theClass="toClear"/>
+            <Button text="Save" onClick={()=>toSave(editState,index)} theClass="toSave" type="button"/>
+            <Button text="Clear" onClick={toClear} theClass="toClear" type="button"/>
+           </div>
+           <div className="dataList">
+            {workInfoList.map((work,i)=>{
+                return <DataSet editCurrentInfo={()=>editInfo(i)} deleteCurrentInfo={()=>deleteInfo(i)} key={i} role={work.role} />
+            })}
            </div>
         </form>
     )
@@ -251,13 +329,14 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps}
       getWorkStartDate={(value)=>workHistoryProps.getWorkStartDate(value)}
       getRoleDescription={(value)=>workHistoryProps.getRoleDescription(value)}
       getIsWorking={(value)=>workHistoryProps.getIsWorking(value)}
+      sendWorkInfoList={(value)=>workHistoryProps.sendWorkInfoList(value)}
       />}
     </div>
     </div>
  )
 }
 //create div area component which represents a set of data being added in UI
-function DataSet({schoolName,deleteCurrentInfo,editCurrentInfo}){
+function DataSet({role,schoolName,deleteCurrentInfo,editCurrentInfo}){
     const toEdit=(e)=>{
         e.preventDefault();
         editCurrentInfo();
@@ -268,7 +347,7 @@ function DataSet({schoolName,deleteCurrentInfo,editCurrentInfo}){
     }
     return(
         <div className="dataSetDiv">
-          <h3>{schoolName}</h3>
+          <h3>{schoolName||role}</h3>
           <div className="btnList">
           <Button onClick={toEdit} text="Edit" theClass="toEdit"/>
           <Button onClick={toDelete} text="Delete" theClass="toDelete"/>
