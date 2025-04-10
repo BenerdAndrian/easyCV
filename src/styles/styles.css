@@ -87,7 +87,7 @@ html{
     grid-column:1/2;
     border:1px solid;
 }
-.workHistorySection,.educationSection,.contacSection,.skillsSection{
+.workHistorySection,.educationSection,.contactSection,.skillsSection{
     padding:1rem;
 }
 .contactSection{
@@ -101,12 +101,26 @@ html{
 .skillsSection{
     grid-column:2/3;
     border:1px solid;
+}
+.contactSection ul li,.skillsSection,.educationSection{
     word-break: break-word;
 }
 .theApp{
     display:flex;
     border:1px solid;
     width:100vw;
+}
+.contactSection ul li{
+    list-style:none;
+    margin-top:0.7rem;
+}
+ul li .row{
+    display:flex;
+    align-items: center;
+    gap:0.2rem;
+}
+.contactSection span{
+    font-weight:bold;
 }
 #CV{
     height:200vh;

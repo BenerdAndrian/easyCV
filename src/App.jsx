@@ -10,7 +10,7 @@ function App() {
     phoneNumber:'+84 977 645 341',
     location:'District 12,HCMC,Vietnam',
     occupation:'Student/Web dev',
-    language:'',
+    language:'Vietnamese,English,Thai',
     git:'',
     summary:'4-years of Intelligence Technology,graduaded from prestigious Saigon University,with experiences in building multiple projects spreading throughout many majors, im confident on many languages like C/C++,Python,Javascript,HTML,CSS,Reactjs,react Native,nodejs and databases',
     schoolName:'',

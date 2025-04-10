@@ -1,6 +1,12 @@
 import workIcon from './assets/img/work.svg'
 import eduIcon from './assets/img/edu.svg'
 import skillIcon from './assets/img/skills.svg'
+import profileIcon from './assets/img/profile.svg'
+import mailIcon from './assets/img/mail.svg'
+import locationIcon from './assets/img/location.svg'
+import languageIcon from './assets/img/language.svg'
+import phoneIcon from './assets/img/phone.svg'
+import gitIcon from './assets/img/github.svg'
 function GenerateCV(props){
     //receive data object from props
     const today=new Date();
@@ -46,7 +52,69 @@ function GenerateCV(props){
                             </li>} )}
                         </ul>
                     </div>
-                    <div className="contactSection"></div>
+                    <div className="contactSection">
+                        <img src={profileIcon} alt="profile icon" />
+                        <span>Contacts</span>
+                        <hr />
+                        <ul>
+                            <li>
+                                <p className="row">
+                                <img src={phoneIcon} alt="phone icon" />
+                                <span>Phone</span>
+                                </p>
+                                
+                                <p className="row">
+                                    {data.phoneNumber}
+                                </p>
+                            </li>
+
+                            <li>
+                                <p className="row">
+                                <img src={mailIcon} alt="mail icon" />
+                                <span>Email</span>
+                                </p>
+                                
+                                <p className="row">
+                                    {data.email}
+                                </p>
+                            </li>
+
+                            <li>
+                                <p className="row">
+                                <img src={locationIcon} alt="location icon" />
+                                <span>Location</span>
+                                </p>
+                                
+                                <p className="row">
+                                    {data.location}
+                                </p>
+                            </li>
+
+                            <li>
+                                <p className="row">
+                                <img src={gitIcon} alt="git icon" />
+                                <span>Github</span>
+                                </p>
+                                
+                                <p className="row">
+                                    {data.git}
+                                </p>
+                            </li>
+
+                            <li>
+                                <p className="row">
+                                <img src={languageIcon} alt="language icon" />
+                                <span>Languages</span>
+                                </p>
+                                
+                                <p className="row">
+                                    {data.language}
+                                </p>
+                            </li>
+
+                        </ul>
+
+                    </div>
                 </div>
                 <div className="row2">
                     <div className="educationSection">
