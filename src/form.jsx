@@ -233,14 +233,62 @@ function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate
     )
 }
 //create skills form component
-function SkillsInfo({getCategory,getSkillDetail}){
+function SkillsInfo({getCategory,getSkillDetail,skillData,setSkillData}){
+    const [skill,setSkill]=useState({
+        category:'',
+        skillsDetail:'',
+    })
+    const [editState,setEditState]=useState(false)
+    const [index,setIndex]=useState()
+    const toClear=(e)=>{
+        e.preventDefault();
+        setSkill({
+            category:'',
+            skillsDetail:'',
+        })
+    }
+    const toSave=(editState,index)=>{
+     if(!editState){
+        const updateList=[...skillData,skill]
+        setSkillData(updateList)
+     }else{
+       const updatedList=Array.from(skillData);
+       updatedList[index].category=skill.category;
+       updatedList[index].skillsDetail=skill.skillsDetail;
+       setSkillData(updatedList)
+     }
+     setSkill({
+        category:'',
+        skillsDetail:'',
+    })
+    setEditState(false)
+    }
+    const editInfo=(i)=>{
+       setIndex(i);
+       setEditState(true);
+       setSkill({
+        category:skillData[i].category,
+        skillsDetail:skillData[i].skillsDetail
+       })
+
+    }
+    const deleteInfo=(i)=>{
+      const updatedList=Array.from(skillData)
+      updatedList.splice(i,1);
+      setSkillData(updatedList);
+    }
     return(
         <form id="skills">
-             <Label_Input toTake={(value)=>{getCategory(value)}} labelText="Category: " inputType="text" forProp="skillCategory" />
-             <Label_Input toTake={(value)=>{getSkillDetail(value)}} labelText="Skill Details: " inputType="text" forProp="skillDetail" />
+             <Label_Input value={skill.category} toTake={(value)=>{getCategory(value),setSkill({...skill,category:value})}} labelText="Category: " inputType="text" forProp="skillCategory" />
+             <Label_Input value={skill.skillsDetail} toTake={(value)=>{getSkillDetail(value),setSkill({...skill,skillsDetail:value})}} labelText="Skill Details: " inputType="text" forProp="skillDetail" />
              <div className="btnList">
-            <Button text="Save" theClass="toSave"/>
-            <Button text="Clear" theClass="toClear"/>
+            <Button onClick={()=>toSave(editState,index)} text="Save" theClass="toSave" type="button"/>
+            <Button onClick={toClear} text="Clear" theClass="toClear"/>
+           </div>
+           <div className="dataList">
+            {skillData.map((skill,i)=>{
+                return <DataSet  editCurrentInfo={()=>editInfo(i)} deleteCurrentInfo={()=>deleteInfo(i)} key={i} skill={skill.category} />
+            })}
            </div>
         </form>
     )
@@ -305,6 +353,8 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,
       {theForm==="skills" && <SkillsInfo
       getCategory={(value)=>{skillsProps.getCategory(value)}}
       getSkillDetail={(value)=>{skillsProps.getSkillDetail(value)}}
+      skillData={useStateList.skillData}
+      setSkillData={useStateList.setSkillData}
       />}
       {theForm==="work" && <WorkHistoryInfo
       getCompanyName={(value)=>workHistoryProps.getCompanyName(value)}
@@ -322,7 +372,7 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,
  )
 }
 //create div area component which represents a set of data being added in UI
-function DataSet({role,schoolName,deleteCurrentInfo,editCurrentInfo}){
+function DataSet({skill,role,schoolName,deleteCurrentInfo,editCurrentInfo}){
     const toEdit=(e)=>{
         e.preventDefault();
         editCurrentInfo();
@@ -333,7 +383,7 @@ function DataSet({role,schoolName,deleteCurrentInfo,editCurrentInfo}){
     }
     return(
         <div className="dataSetDiv">
-          <h3>{schoolName||role}</h3>
+          <h3>{schoolName||role||skill}</h3>
           <div className="btnList">
           <Button onClick={toEdit} text="Edit" theClass="toEdit"/>
           <Button onClick={toDelete} text="Delete" theClass="toDelete"/>

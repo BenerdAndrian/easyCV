@@ -45,6 +45,7 @@ html{
     display:grid;
     grid-template-rows:min-content 1fr;
     width:100%;
+    overflow:hidden;
 }
 .CVHeader{
     grid-row:1/2;
@@ -70,13 +71,13 @@ html{
 .row1{
     grid-row:1/2;
     display:grid;
-    grid-template-columns:1fr 100px;
+    grid-template-columns:1fr 200px;
     border:1px solid;
 }
 .row2{
     grid-row:2/3;
     display:grid;
-    grid-template-columns:1fr 100px;
+    grid-template-columns:1fr 200px;
     border:1px solid;
 }
 .workHistorySection{
@@ -161,4 +162,7 @@ html{
 }
 .eduList li{
     list-style:none;
+}
+.skills li{
+    list-style:none
 }

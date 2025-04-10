@@ -46,8 +46,15 @@ const [workData,setWorkData]=useState([
         isWorking:'false',
   }
 ])
+const [skillData,setSkillData]=useState([
+  {
+    category:'Front-end Skills',
+    skillsDetail:'HTML,CSS,Javascript,ReactJS,React Native,Jest,TailWind,BootsTrap,Git,Webpack,NodeJs,MySQL'
+  }
+])
 console.log("eduData: ",eduData);
 console.log("workData: ",workData)
+
 const [generalData,setGeneralData]=useState({
     firstName:"Ben",
     lastName:"Andrian",
@@ -162,10 +169,11 @@ const [generalData,setGeneralData]=useState({
   //store all the skill props inside skillProps
   const skillProps={getCategory,getSkillDetail}
   //store useState 
-  const useStateList={eduData,setEduData,workData,setWorkData};
+  const useStateList={eduData,setEduData,workData,setWorkData,skillData,setSkillData};
+
   return <div className="theApp">
    <FormSwitchInteract useStateList={useStateList} skillsProps={skillProps} workHistoryProps={workHistoryProps} generalProps={generalProps} eduProps={eduProps} />
-   <GenerateCV workData={workData} eduData={eduData} receive={data}/>
+   <GenerateCV skillData={skillData} workData={workData} eduData={eduData} receive={data}/>
   </div>
  
 }

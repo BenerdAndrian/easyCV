@@ -1,5 +1,6 @@
 import workIcon from './assets/img/work.svg'
 import eduIcon from './assets/img/edu.svg'
+import skillIcon from './assets/img/skills.svg'
 function GenerateCV(props){
     //receive data object from props
     const today=new Date();
@@ -8,6 +9,7 @@ function GenerateCV(props){
     const data=props.receive;
     const eduData=props.eduData;
     const workData=props.workData;
+    const skillData=props.skillData
     console.log(data.isStudy)
     console.log('data ne: ',eduData)
     return (
@@ -71,7 +73,21 @@ function GenerateCV(props){
                            
                        
                     </div>
-                    <div className="skillsSection"></div>
+                    <div className="skillsSection">
+                        <img src={skillIcon} alt="Skill icon" />
+                        <span>Skills</span>
+                        <hr />
+                         <div className="skillData">
+                            <ul className="skills">
+                                {skillData.map(skill=>{
+                                    return <li>
+                                        <h2>{skill.category}</h2>
+                                        <p>{skill.skillsDetail}</p>
+                                    </li>
+                                })}
+                            </ul>
+                         </div>
+                    </div>
                 </div>
             </div>
         </div>
