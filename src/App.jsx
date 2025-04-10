@@ -1,17 +1,46 @@
 import { useState } from 'react'
 import { FormSwitchInteract } from './form'
 import { GenerateCV } from './CV'
+// use useState to store datas receiving from the child and give it to GenerateCV component to render to UI
 function App() {
   const [data,setData]=useState({
-    firstName:'',
-    lastName:'',
-    email:'',
-    phoneNumber:'',
-    location:'',
-    occupation:'',
+    firstName:'Ben',
+    lastName:'Andrian',
+    email:'ben527466@gmail.com',
+    phoneNumber:'+84 977 645 341',
+    location:'District 12,HCMC,Vietnam',
+    occupation:'Student/Web dev',
     language:'',
     git:'',
-    summary:'',
+    summary:'4-years of Intelligence Technology,graduaded from prestigious Saigon University,with experiences in building multiple projects spreading throughout many majors, im confident on many languages like C/C++,Python,Javascript,HTML,CSS,Reactjs,react Native,nodejs and databases',
+    schoolName:'',
+    degree:'',
+    studyStartDate:'',
+    studyEndDate:'',
+    isStudy:'false',
+    companyName:'',
+    role:'',
+    workEndDate:'',
+    workStartDate:'',
+    roleDescription:'',
+    isWorking:'',
+    skillCategory:'',
+    skillDetail:'',
+})
+const [eduData,setEduData]=useState([
+  {
+    schoolName:'SGU',
+    degree:'Bachelor',
+    startDate:'2022-03-03',
+    endDate:'2024-05-05',
+    isStudy:'false',
+  }
+])
+const [generalData,setGeneralData]=useState({
+    firstName:"Ben",
+    lastName:"Andrian",
+    Occupation:"Student/Web Dev",
+    summary:"dfdsfds"
 })
   //define general info value takes function 
   const getFirstNameValue=(value)=>{
@@ -50,10 +79,79 @@ function App() {
     const theData={...data,summary:value}
     setData(theData)
   }
+  //define edu data take functions
+  const getSchoolName=(value)=>{
+    const theData={...data,schoolName:value}
+    setData(theData);
+  }
+  const getDegree=(value)=>{
+    const theData={...data,degree:value}
+    setData(theData);
+  }
+  const getStudyStartDate=(value)=>{
+    const theData={...data,studyStartDate:value}
+    setData(theData);
+  }
+  const getStudyEndDate=(value)=>{
+    const theData={...data,studyEndDate:value}
+    setData(theData);
+  }
+  const getIsStudy=(value)=>{
+    const theData={...data,isStudy:value}
+    setData(theData);
+  }
+  //define work history data take function
+  const getCompanyName=(value)=>{
+    const theData={...data,companyName:value}
+    setData(theData)
+  }
+  const getRole=(value)=>{
+    const theData={...data,role:value};
+    setData(theData)
+  }
+
+  const getWorkEndDate=(value)=>{
+    const theData={...data,workEndDate:value};
+    setData(theData)
+  }
+  const getWorkStartDate=(value)=>{
+    const theData={...data,workStartDate:value};
+    setData(theData)
+  }
+  const getRoleDescription=(value)=>{
+    const theData={...data,roleDescription:value};
+    setData(theData)
+  }
+  const getIsWorking=(value)=>{
+   const theData={...data,isWorking:value};
+   setData(theData)
+  }
+ // define skill data take function
+ const getCategory=(value)=>{
+  const theData={...data,skillCategory:value}
+  setData(theData)
+ }
+ const getSkillDetail=(value)=>{
+  const theData={...data,skillDetail:value}
+  setData(theData)
+ }
+ const sendDataList=(value)=>{
+  const data=value;
+  console.log("betwen",data)
+  setEduData(data)
+  console.log("ohla",eduData)
+ }
+  //store all the generalInfo props inside generalProps
   const generalProps={getFirstNameValue,getLastNameValue,getEmailValue,getPhoneValue,getLocationValue,getOccupationValue,getGitValue,getLanguageValue,getSummary}
+  ////store all the education Info props inside eduProps
+  const eduProps={getSchoolName,getDegree,getStudyStartDate,getStudyEndDate,getIsStudy,sendDataList}
+  //store all the work history props inside workHistoryProps
+  const workHistoryProps={getCompanyName,getRole,getWorkEndDate,getWorkStartDate,getRoleDescription,getIsWorking}
+  //store all the skill props inside skillProps
+  const skillProps={getCategory,getSkillDetail}
   return <div className="theApp">
-   <FormSwitchInteract generalProps={generalProps} />
-   <GenerateCV receive={data}/>
+   <FormSwitchInteract skillsProps={skillProps} workHistoryProps={workHistoryProps} generalProps={generalProps} eduProps={eduProps} />
+   <GenerateCV eduData={eduData} receive={data}/>
   </div>
  
 }

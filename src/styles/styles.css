@@ -104,6 +104,10 @@ html{
 #CV{
     height:100vh;
 }
+#CV img{
+    width:25px;
+    height:25px;
+}
 .CVHeader{
     background-color:rgb(31, 31, 121);
     color:white;
@@ -121,4 +125,31 @@ html{
 }
 .fullname span:first-child{
     margin-right:0.5rem;
+}
+.dataSetDiv{
+    display:flex;
+    justify-content: space-between;
+    background-color:rgb(22, 22, 95);
+    color:white;
+    margin-bottom:0.5rem;
+    padding:0.3rem;
+}
+.dataSetDiv button{
+    padding:0.4rem 1rem;
+    margin-right:0.5rem;
+}
+.dateFormat span:nth-child(2){
+    margin:0 1rem;
+    font-size:1.2rem;
+}
+.theDateFormat{
+    display:flex;
+    justify-content: space-between;
+}
+.dataList{
+    overflow-y:auto;
+    scroll-behavior: auto;
+    background-color:red;
+    height:10vh;
+    padding:1rem;
 }

@@ -31,49 +31,140 @@ function GenerateGeneralInfo({getFirstNameValue,getLastNameValue,getEmailValue,g
           
            <div className="summary">
             <label htmlFor="sum">Summary</label>
-            <textarea onChange={takeData} placeholder="i love coding on the beach..." cols="10" rows="5" name="summary" id="sum"></textarea>
+            <textarea defaultValue="4-years of Intelligence Technology,graduaded from prestigious Saigon University,with experiences in building multiple projects spreading throughout many majors, im confident on many languages like C/C++,Python,Javascript,HTML,CSS,Reactjs,react Native,nodejs and databases" onChange={takeData} placeholder="i love coding on the beach..." cols="10" rows="5" name="summary" id="sum"></textarea>
            </div>
         </form>
     )
 }
 //create education info form component
-function EducationInfo(){
+function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDate,getIsStudy,sendDataList}){
+    const [data,setData]=useState({
+       schoolName:'',
+       degree:'',
+       startDate:'',
+       endDate:'',
+       isStudy:'',
+    })
+    const [dataList,setList]=useState([{
+        schoolName:'SGU',
+        degree:'Bachelor',
+        startDate:'2022-03-03',
+        endDate:'2024-05-05',
+        isStudy:'false',
+}])
+    sendDataList(dataList)
+    const [editState,setEditState]=useState(false);
+    const [index,setIndex]=useState(null);
+
+    const toSave=(editState,i)=>{
+      if(!editState){
+        const addedData=[...dataList,data];
+        setList(addedData)
+        sendDataList(addedData);
+        const tocheck=document.getElementById('studyAns')
+        tocheck.checked=false;
+      }else{
+       
+        const updateList=Array.from(dataList);
+       updateList[i].schoolName=data.schoolName;
+       updateList[i].degree=data.degree;
+       updateList[i].startDate=data.startDate;
+       updateList[i].endDate=data.endDate;
+       updateList[i].isStudy=data.isStudy;
+       setList(updateList);
+       setEditState(false)
+      }
+      setData({
+        schoolName:'',
+       degree:'',
+       startDate:'',
+       endDate:'',
+       isStudy:'',
+      })
+    }
+    const toClear=(e)=>{
+        e.preventDefault();
+      setData({
+        schoolName:'',
+        degree:'',
+        startDate:'',
+        endDate:'',
+        isStudy:'',
+      })
+        console.log(data)
+        const tocheck=document.getElementById('studyAns')
+        tocheck.checked=false;
+    }
+    const toCheck=(e)=>{
+        getIsStudy(e.target.checked)
+        setData({...data,isStudy:e.target.checked})
+    }
+    const toDeleteInfo=(i)=>{
+        const updatedList=Array.from(dataList);
+        updatedList.splice(i,1);
+        setList(updatedList)
+       sendDataList(updatedList);
+    }
+    const toEditInfo=(i)=>{
+        setEditState(true);
+        setIndex(i)
+        setData({
+            schoolName:dataList[i].schoolName,
+            degree:dataList[i].degree,
+            startDate:dataList[i].startDate,
+            endDate:dataList[i].endDate,
+            isStudy:dataList[i].isStudy,
+        })
+        
+
+        const savebtn=document.querySelector('.toSave');
+        savebtn.onclick=()=>toSave(editState,index)
+    }
     return (
         <form id="eduInfoForm">
-           <Label_Input labelText="School Name: " inputType="text" forProp="schoolName" />
-           <Label_Input labelText="Degree/Program: " inputType="text" forProp="degree" />
-           <Label_Input labelText="Start Date: " inputType="date" forProp="startStudyDate" />
-           <Label_Input labelText="End Date: " inputType="date" forProp="endStudyDate" />
+           <Label_Input value={data.schoolName} toTake={(value)=>{getSchoolName(value);setData({...data,schoolName:value})}} labelText="School Name: " inputType="text" forProp="schoolName" />
+           <Label_Input value={data.degree} toTake={(value)=>{getDegree(value),setData({...data,degree:value})}} labelText="Degree/Program: " inputType="text" forProp="degree" />
+           <Label_Input value={data.startDate} toTake={(value)=>{getStudyStartDate(value),setData({...data,startDate:value})}} labelText="Start Date: " inputType="date" forProp="startStudyDate" />
+           <Label_Input value={data.endDate} toTake={(value)=>{getStudyEndDate(value),setData({...data,endDate:value})}} labelText="End Date: " inputType="date" forProp="endStudyDate" />
            <div className="studyQuestion">
             <label htmlFor="studyAns">Do You Still Study Here?</label>
             <div className="studyAnswer">
-            <input id="studyAns" type="checkbox" />
+            <input onChange={toCheck} id="studyAns" type="checkbox" />
             <span>Yes</span>
             </div>
            </div>
            <div className="btnList">
-            <Button text="Save" theClass="toSave"/>
-            <Button text="Clear" theClass="toClear"/>
+            <Button type="button" onClick={()=>toSave(editState,index)} text="Save" theClass="toSave"/>
+            <Button type="button" onClick={toClear} text="Clear" theClass="toClear"/>
+           </div>
+           <div className="dataList">
+            {dataList.map((data,i)=>{
+
+                return <DataSet editCurrentInfo={()=>toEditInfo(i)} deleteCurrentInfo={()=>toDeleteInfo(i)} schoolName={data.schoolName} key={i}/>
+            })}
            </div>
         </form>
     )
 }
 //create work history form component
-function WorkHistoryInfo(){
+function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate,getRoleDescription,getIsWorking}){
+    const takeData=(e)=>{
+        getIsWorking(e.target.checked)
+    }
     return (
         <form id="workHistory">
-            <Label_Input labelText="Company: " inputType="text" forProp="company" />
-           <Label_Input labelText="Role: " inputType="text" forProp="role" />
-           <Label_Input labelText="Start Date: " inputType="date" forProp="startWorkDate" />
-           <Label_Input labelText="End Date: " inputType="date" forProp="endWorkDate" />
+            <Label_Input toTake={(value)=>getCompanyName(value)}  labelText="Company: " inputType="text" forProp="company" />
+           <Label_Input toTake={(value)=>getRole(value)} labelText="Role: " inputType="text" forProp="role" />
+           <Label_Input toTake={(value)=>getWorkStartDate(value)} labelText="Start Date: " inputType="date" forProp="startWorkDate" />
+           <Label_Input toTake={(value)=>getWorkEndDate(value)} labelText="End Date: " inputType="date" forProp="endWorkDate" />
            <div className="workQuestion">
             <label htmlFor="workAns">Do You Still Working Here?</label>
             <div className="workAnswer">
-                <input type="checkbox" id="workAns" />
+                <input onChange={takeData} type="checkbox" id="workAns" />
                 <span>Yes</span>
             </div>
            </div>
-           <Label_Input labelText="Role Description: " inputType="text" forProp="roleDes"/>
+           <Label_Input toTake={(value)=>getRoleDescription(value)} labelText="Role Description: " inputType="text" forProp="roleDes"/>
            <div className="btnList">
             <Button text="Save" theClass="toSave"/>
             <Button text="Clear" theClass="toClear"/>
@@ -82,11 +173,11 @@ function WorkHistoryInfo(){
     )
 }
 //create skills form component
-function SkillsInfo(){
+function SkillsInfo({getCategory,getSkillDetail}){
     return(
         <form id="skills">
-             <Label_Input labelText="Category: " inputType="text" forProp="skillCategory" />
-             <Label_Input labelText="Skill Details: " inputType="text" forProp="skillDetail" />
+             <Label_Input toTake={(value)=>{getCategory(value)}} labelText="Category: " inputType="text" forProp="skillCategory" />
+             <Label_Input toTake={(value)=>{getSkillDetail(value)}} labelText="Skill Details: " inputType="text" forProp="skillDetail" />
              <div className="btnList">
             <Button text="Save" theClass="toSave"/>
             <Button text="Clear" theClass="toClear"/>
@@ -95,11 +186,10 @@ function SkillsInfo(){
     )
 }
 //create formSwitchinteract component
-function FormSwitchInteract({generalProps,eduProps,skillsProps,workProps}){
+function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps}){
    const [theForm,setForm]=useState("general")
    const generateGeneralInfoForm=()=>{
     setForm('general');
-    console.log('hello')
    }
    const generateEduInfoForm=()=>{
     setForm('edu');
@@ -142,13 +232,48 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workProps}){
       getGitValue={(value)=>generalProps.getGitValue(value)}
       getSummary={(value)=>generalProps.getSummary(value)}
       />}
-      {theForm==="edu" && <EducationInfo/>}
-      {theForm==="skills" && <SkillsInfo/>}
-      {theForm==="work" && <WorkHistoryInfo/>}
+      {theForm==="edu" && <EducationInfo
+       getSchoolName={(value)=>eduProps.getSchoolName(value)}
+       getDegree={(value)=>eduProps.getDegree(value)}
+       getStudyStartDate={(value)=>eduProps.getStudyStartDate(value)}
+       getStudyEndDate={(value)=>eduProps.getStudyEndDate(value)}
+       getIsStudy={(value)=>eduProps.getIsStudy(value)}
+       sendDataList={(value)=>eduProps.sendDataList(value)}
+      />}
+      {theForm==="skills" && <SkillsInfo
+      getCategory={(value)=>{skillsProps.getCategory(value)}}
+      getSkillDetail={(value)=>{skillsProps.getSkillDetail(value)}}
+      />}
+      {theForm==="work" && <WorkHistoryInfo
+      getCompanyName={(value)=>workHistoryProps.getCompanyName(value)}
+      getRole={(value)=>workHistoryProps.getRole(value)}
+      getWorkEndDate={(value)=>workHistoryProps.getWorkEndDate(value)}
+      getWorkStartDate={(value)=>workHistoryProps.getWorkStartDate(value)}
+      getRoleDescription={(value)=>workHistoryProps.getRoleDescription(value)}
+      getIsWorking={(value)=>workHistoryProps.getIsWorking(value)}
+      />}
     </div>
     </div>
-    
  )
 }
-
+//create div area component which represents a set of data being added in UI
+function DataSet({schoolName,deleteCurrentInfo,editCurrentInfo}){
+    const toEdit=(e)=>{
+        e.preventDefault();
+        editCurrentInfo();
+    }
+    const toDelete=(e)=>{
+        e.preventDefault()
+        deleteCurrentInfo();
+    }
+    return(
+        <div className="dataSetDiv">
+          <h3>{schoolName}</h3>
+          <div className="btnList">
+          <Button onClick={toEdit} text="Edit" theClass="toEdit"/>
+          <Button onClick={toDelete} text="Delete" theClass="toDelete"/>
+          </div>
+        </div>
+    )
+}
 export {FormSwitchInteract}
