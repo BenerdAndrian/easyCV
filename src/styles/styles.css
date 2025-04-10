@@ -159,3 +159,6 @@ html{
 .workAnswer{
     margin-left:1rem;
 }
+.eduList li{
+    list-style:none;
+}

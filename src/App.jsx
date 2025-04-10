@@ -46,6 +46,8 @@ const [workData,setWorkData]=useState([
         isWorking:'false',
   }
 ])
+console.log("eduData: ",eduData);
+console.log("workData: ",workData)
 const [generalData,setGeneralData]=useState({
     firstName:"Ben",
     lastName:"Andrian",
@@ -149,10 +151,7 @@ const [generalData,setGeneralData]=useState({
   setData(theData)
  }
  const sendDataList=(value)=>{
-  const data=value;
-  console.log("betwen",data)
-  setEduData(data)
-  console.log("ohla",eduData)
+  setEduData(value)
  }
   //store all the generalInfo props inside generalProps
   const generalProps={getFirstNameValue,getLastNameValue,getEmailValue,getPhoneValue,getLocationValue,getOccupationValue,getGitValue,getLanguageValue,getSummary}
@@ -162,8 +161,10 @@ const [generalData,setGeneralData]=useState({
   const workHistoryProps={getCompanyName,getRole,getWorkEndDate,getWorkStartDate,getRoleDescription,getIsWorking,sendWorkInfoList}
   //store all the skill props inside skillProps
   const skillProps={getCategory,getSkillDetail}
+  //store useState 
+  const useStateList={eduData,setEduData,workData,setWorkData};
   return <div className="theApp">
-   <FormSwitchInteract skillsProps={skillProps} workHistoryProps={workHistoryProps} generalProps={generalProps} eduProps={eduProps} />
+   <FormSwitchInteract useStateList={useStateList} skillsProps={skillProps} workHistoryProps={workHistoryProps} generalProps={generalProps} eduProps={eduProps} />
    <GenerateCV workData={workData} eduData={eduData} receive={data}/>
   </div>
  

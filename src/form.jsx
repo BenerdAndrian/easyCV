@@ -37,7 +37,7 @@ function GenerateGeneralInfo({getFirstNameValue,getLastNameValue,getEmailValue,g
     )
 }
 //create education info form component
-function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDate,getIsStudy,sendDataList}){
+function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDate,getIsStudy,sendDataList,eduData,setEduData}){
     const [data,setData]=useState({
        schoolName:'',
        degree:'',
@@ -45,33 +45,25 @@ function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDat
        endDate:'',
        isStudy:'',
     })
-    const [dataList,setList]=useState([{
-        schoolName:'SGU',
-        degree:'Bachelor',
-        startDate:'2022-03-03',
-        endDate:'2024-05-05',
-        isStudy:'false',
-}])
-    sendDataList(dataList)
+  
     const [editState,setEditState]=useState(false);
     const [index,setIndex]=useState(null);
 
     const toSave=(editState,i)=>{
       if(!editState){
-        const addedData=[...dataList,data];
-        setList(addedData)
-        sendDataList(addedData);
+        const addedData=[...eduData,data];
+        setEduData(addedData)
         const tocheck=document.getElementById('studyAns')
         tocheck.checked=false;
       }else{
        
-        const updateList=Array.from(dataList);
+        const updateList=Array.from(eduData);
        updateList[i].schoolName=data.schoolName;
        updateList[i].degree=data.degree;
        updateList[i].startDate=data.startDate;
        updateList[i].endDate=data.endDate;
        updateList[i].isStudy=data.isStudy;
-       setList(updateList);
+       setEduData(updateList);
        setEditState(false)
       }
       setData({
@@ -100,20 +92,20 @@ function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDat
         setData({...data,isStudy:e.target.checked})
     }
     const toDeleteInfo=(i)=>{
-        const updatedList=Array.from(dataList);
+        const updatedList=Array.from(eduData);
         updatedList.splice(i,1);
-        setList(updatedList)
+        setEduData(updatedList)
        sendDataList(updatedList);
     }
     const toEditInfo=(i)=>{
         setEditState(true);
         setIndex(i)
         setData({
-            schoolName:dataList[i].schoolName,
-            degree:dataList[i].degree,
-            startDate:dataList[i].startDate,
-            endDate:dataList[i].endDate,
-            isStudy:dataList[i].isStudy,
+            schoolName:eduData[i].schoolName,
+            degree:eduData[i].degree,
+            startDate:eduData[i].startDate,
+            endDate:eduData[i].endDate,
+            isStudy:eduData[i].isStudy,
         })
         
 
@@ -138,7 +130,7 @@ function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDat
             <Button type="button" onClick={toClear} text="Clear" theClass="toClear"/>
            </div>
            <div className="dataList">
-            {dataList.map((data,i)=>{
+            {eduData.map((data,i)=>{
 
                 return <DataSet editCurrentInfo={()=>toEditInfo(i)} deleteCurrentInfo={()=>toDeleteInfo(i)} schoolName={data.schoolName} key={i}/>
             })}
@@ -147,7 +139,7 @@ function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDat
     )
 }
 //create work history form component
-function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate,getRoleDescription,getIsWorking,sendWorkInfoList}){
+function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate,getRoleDescription,getIsWorking,workData,setWorkData}){
     const [workInfo,setWorkInfo]=useState({
         companyName:'',
         role:'',
@@ -156,30 +148,21 @@ function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate
         roleDescription:'',
         isWorking:'',
     })
-    const [workInfoList,setWorkInfoList]=useState([{
-        companyName:'Apple Inc',
-        role:'Code Janitor',
-        workStartDate:'2020-04-02',
-        workEndDate:'2023-11-22',
-        roleDescription:'Clean code for all Apple Software and floors',
-        isWorking:'false',
-    }])
     const [editState,setEditState]=useState(false)
     const [index,setIndex]=useState()
     const toSave=(editState,index)=>{
       if(!editState){
-        const updateList=[...workInfoList,workInfo]
-        setWorkInfoList(updateList)
-        sendWorkInfoList(updateList)
+        const updateList=[...workData,workInfo]
+        setWorkData(updateList)
       }else{
-       const updatedList=Array.from(workInfoList)
+       const updatedList=Array.from(workData)
       updatedList[index].companyName=workInfo.companyName;
       updatedList[index].role=workInfo.role;
       updatedList[index].workStartDate=workInfo.workStartDate;
       updatedList[index].workEndDate=workInfo.workEndDate;
       updatedList[index].roleDescription=workInfo.roleDescription;
       updatedList[index].isWorking=workInfo.isWorking;
-       sendWorkInfoList(updatedList)
+      setWorkData(updatedList);
        setEditState(false);
       }
       setWorkInfo({
@@ -193,7 +176,7 @@ function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate
     }
     const editInfo=(i)=>{
         setEditState(true)
-      const info=workInfoList[i];
+      const info=workData[i];
       setWorkInfo({
         companyName:info.companyName,
         role:info.role,
@@ -205,10 +188,9 @@ function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate
       setIndex(i)
     }
     const deleteInfo=(i)=>{
-        const updatedList=Array.from(workInfoList);
+        const updatedList=Array.from(workData);
         updatedList.splice(i,1);
-        sendWorkInfoList(updatedList)
-        setWorkInfoList(updatedList)
+        setWorkData(updatedList)
     }
     const toClear=()=>{
         setWorkInfo({
@@ -243,7 +225,7 @@ function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate
             <Button text="Clear" onClick={toClear} theClass="toClear" type="button"/>
            </div>
            <div className="dataList">
-            {workInfoList.map((work,i)=>{
+            {workData.map((work,i)=>{
                 return <DataSet editCurrentInfo={()=>editInfo(i)} deleteCurrentInfo={()=>deleteInfo(i)} key={i} role={work.role} />
             })}
            </div>
@@ -264,7 +246,7 @@ function SkillsInfo({getCategory,getSkillDetail}){
     )
 }
 //create formSwitchinteract component
-function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps}){
+function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,useStateList}){
    const [theForm,setForm]=useState("general")
    const generateGeneralInfoForm=()=>{
     setForm('general');
@@ -317,6 +299,8 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps}
        getStudyEndDate={(value)=>eduProps.getStudyEndDate(value)}
        getIsStudy={(value)=>eduProps.getIsStudy(value)}
        sendDataList={(value)=>eduProps.sendDataList(value)}
+       eduData={useStateList.eduData}
+       setEduData={useStateList.setEduData}
       />}
       {theForm==="skills" && <SkillsInfo
       getCategory={(value)=>{skillsProps.getCategory(value)}}
@@ -330,6 +314,8 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps}
       getRoleDescription={(value)=>workHistoryProps.getRoleDescription(value)}
       getIsWorking={(value)=>workHistoryProps.getIsWorking(value)}
       sendWorkInfoList={(value)=>workHistoryProps.sendWorkInfoList(value)}
+      workData={useStateList.workData}
+      setWorkData={useStateList.setWorkData}
       />}
     </div>
     </div>
