@@ -15,12 +15,12 @@ function Label_Input({labelText,inputType,forProp,defaultValue,toTake,value}){
 function Button({text,icon,style,theClass,onClick,type}){
     if(!icon){
         return (
-            <button type={type} onClick={onClick} className={theClass} style={style}>{text}</button>
+            <button type={type} onClick={onClick} className={theClass} style={{style}}>{text}</button>
         )
     }
     return (
 
-        <button type={type} onClick={onClick} className={theClass} style={style}>
+        <button type={type} onClick={onClick} className={theClass} style={{style}}>
            <img src={icon} alt="icon" />
            <p>{text}</p>
         </button>

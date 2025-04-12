@@ -4,69 +4,68 @@ import profileIcon from './assets/img/profile.svg'
 import skillsIcon from './assets/img/skills.svg'
 import workIcon from './assets/img/work.svg'
 import {useState} from 'react'
+import brushIcon from './assets/img/brush.svg'
+import infoIcon from './assets/img/i.svg'
+import loadIcon from './assets/img/load.svg'
 //create generalInfo form component
-function GenerateGeneralInfo({getFirstNameValue,getLastNameValue,getEmailValue,getPhoneValue,getLocationValue,getOccupationValue,getLanguageValue,getGitValue,getSummary}){
-  const takeData=(e)=>{
-     getSummary(e.target.value)
-  }
+function GenerateGeneralInfo({getFirstNameValue,getLastNameValue,getEmailValue,getPhoneValue,getLocationValue,getOccupationValue,getLanguageValue,getGitValue,getSummary,data,setData}){
 
+    const takeData=(e)=>{
+     getSummary(e.target.value);
+     setData({...data,summary:e.target.value})
+  }
+    
     return(
         <form id="GeneralInfoForm">
             <div className="formRow">
-            <Label_Input toTake={(value)=>getFirstNameValue(value)} labelText="First Name: " inputType="text" forProp="fname" defaultValue="Ben" />
-            <Label_Input toTake={(value)=>getLastNameValue(value)} labelText="Last Name: " inputType="text" forProp="lname" defaultValue="Andrian" />
+            <Label_Input value={data.firstName} toTake={(value)=>{getFirstNameValue(value),setData({...data,firstName:value})}} labelText="First Name: " inputType="text" forProp="fname" defaultValue="Ben" />
+            <Label_Input value={data.lastName} toTake={(value)=>{getLastNameValue(value),setData({...data,lastName:value})}} labelText="Last Name: " inputType="text" forProp="lname" defaultValue="Andrian" />
             </div>
            <div className="formRow">
-           <Label_Input toTake={(value)=>getEmailValue(value)} labelText="Email: " inputType="email" forProp="email" defaultValue="Benerd2243@gmail.com" />
-           <Label_Input toTake={getPhoneValue} labelText="Phone: " inputType="tel" forProp="phone" defaultValue="+84 988 637 203" />
+           <Label_Input value={data.email} toTake={(value)=>{getEmailValue(value),setData({...data,email:value})}} labelText="Email: " inputType="email" forProp="email" defaultValue="Benerd2243@gmail.com" />
+           <Label_Input value={data.phone} toTake={(value)=>{getPhoneValue(value),setData({...data,phone:value})}} labelText="Phone: " inputType="tel" forProp="phone" defaultValue="+84 988 637 203" />
            </div>
           <div className="formRow">
-          <Label_Input toTake={(value)=>getLocationValue(value)} labelText="Location: " inputType="text" forProp="location" defaultValue="District 12,HCMC,Vietnam" />
-          <Label_Input toTake={getOccupationValue} labelText="Occupation: " inputType="text" forProp="occupation" defaultValue="Student" />
+          <Label_Input value={data.location} toTake={(value)=>{getLocationValue(value),setData({...data,location:value})}} labelText="Location: " inputType="text" forProp="location" defaultValue="District 12,HCMC,Vietnam" />
+          <Label_Input value={data.occupation} toTake={(value)=>{getOccupationValue(value),setData({...data,occupation:value})}} labelText="Occupation: " inputType="text" forProp="occupation" defaultValue="Student" />
           </div>
           <div className="formRow">
-          <Label_Input toTake={(value)=>getLanguageValue(value)} labelText="Languages: " inputType="text" forProp="language" defaultValue="Vietnamese,English" />
-          <Label_Input toTake={(value)=>getGitValue(value)} labelText="Github: " inputType="text" forProp="git" defaultValue="https://github.com/BenerdAndrian" />
+          <Label_Input value={data.language} toTake={(value)=>{getLanguageValue(value),setData({...data,language:value})}} labelText="Languages: " inputType="text" forProp="language" defaultValue="Vietnamese,English" />
+          <Label_Input value={data.git} toTake={(value)=>{getGitValue(value),setData({...data,git:value})}} labelText="Github: " inputType="text" forProp="git" defaultValue="https://github.com/BenerdAndrian" />
           </div>
           
            <div className="summary">
             <label htmlFor="sum">Summary</label>
-            <textarea defaultValue="4-years of Intelligence Technology,graduaded from prestigious Saigon University,with experiences in building multiple projects spreading throughout many majors, im confident on many languages like C/C++,Python,Javascript,HTML,CSS,Reactjs,react Native,nodejs and databases" onChange={takeData} placeholder="i love coding on the beach..." cols="10" rows="5" name="summary" id="sum"></textarea>
+            <textarea value={data.summary} onChange={takeData} placeholder="i love coding on the beach..." cols="10" rows="5" name="summary" id="sum"></textarea>
            </div>
         </form>
     )
 }
 //create education info form component
-function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDate,getIsStudy,sendDataList,eduData,setEduData}){
-    const [data,setData]=useState({
-       schoolName:'',
-       degree:'',
-       startDate:'',
-       endDate:'',
-       isStudy:'',
-    })
+function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDate,getIsStudy,sendDataList,eduDataList,setEduDataList,eduData,setEduData}){
+
   
     const [editState,setEditState]=useState(false);
     const [index,setIndex]=useState(null);
 
     const toSave=(editState,i)=>{
       if(!editState){
-        const addedData=[...eduData,data];
-        setEduData(addedData)
+        const addedData=[...eduDataList,eduData];
+        setEduDataList(addedData)
         const tocheck=document.getElementById('studyAns')
         tocheck.checked=false;
       }else{
        
-        const updateList=Array.from(eduData);
-       updateList[i].schoolName=data.schoolName;
-       updateList[i].degree=data.degree;
-       updateList[i].startDate=data.startDate;
-       updateList[i].endDate=data.endDate;
-       updateList[i].isStudy=data.isStudy;
-       setEduData(updateList);
+        const updateList=Array.from(eduDataList);
+       updateList[i].schoolName=eduData.schoolName;
+       updateList[i].degree=eduData.degree;
+       updateList[i].startDate=eduData.startDate;
+       updateList[i].endDate=eduData.endDate;
+       updateList[i].isStudy=eduData.isStudy;
+       setEduDataList(updateList);
        setEditState(false)
       }
-      setData({
+      setEduData({
         schoolName:'',
        degree:'',
        startDate:'',
@@ -76,36 +75,35 @@ function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDat
     }
     const toClear=(e)=>{
         e.preventDefault();
-      setData({
+      setEduData({
         schoolName:'',
         degree:'',
         startDate:'',
         endDate:'',
         isStudy:'',
       })
-        console.log(data)
         const tocheck=document.getElementById('studyAns')
         tocheck.checked=false;
     }
     const toCheck=(e)=>{
         getIsStudy(e.target.checked)
-        setData({...data,isStudy:e.target.checked})
+        setEduData({...eduData,isStudy:e.target.checked})
     }
     const toDeleteInfo=(i)=>{
-        const updatedList=Array.from(eduData);
+        const updatedList=Array.from(eduDataList);
         updatedList.splice(i,1);
-        setEduData(updatedList)
+        setEduDataList(updatedList)
        sendDataList(updatedList);
     }
     const toEditInfo=(i)=>{
         setEditState(true);
         setIndex(i)
-        setData({
-            schoolName:eduData[i].schoolName,
-            degree:eduData[i].degree,
-            startDate:eduData[i].startDate,
-            endDate:eduData[i].endDate,
-            isStudy:eduData[i].isStudy,
+        setEduData({
+            schoolName:eduDataList[i].schoolName,
+            degree:eduDataList[i].degree,
+            startDate:eduDataList[i].startDate,
+            endDate:eduDataList[i].endDate,
+            isStudy:eduDataList[i].isStudy,
         })
         
 
@@ -114,10 +112,10 @@ function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDat
     }
     return (
         <form id="eduInfoForm">
-           <Label_Input value={data.schoolName} toTake={(value)=>{getSchoolName(value);setData({...data,schoolName:value})}} labelText="School Name: " inputType="text" forProp="schoolName" />
-           <Label_Input value={data.degree} toTake={(value)=>{getDegree(value),setData({...data,degree:value})}} labelText="Degree/Program: " inputType="text" forProp="degree" />
-           <Label_Input value={data.startDate} toTake={(value)=>{getStudyStartDate(value),setData({...data,startDate:value})}} labelText="Start Date: " inputType="date" forProp="startStudyDate" />
-           <Label_Input value={data.endDate} toTake={(value)=>{getStudyEndDate(value),setData({...data,endDate:value})}} labelText="End Date: " inputType="date" forProp="endStudyDate" />
+           <Label_Input value={eduData.schoolName} toTake={(value)=>{getSchoolName(value);setEduData({...eduData,schoolName:value})}} labelText="School Name: " inputType="text" forProp="schoolName" />
+           <Label_Input value={eduData.degree} toTake={(value)=>{getDegree(value),setEduData({...eduData,degree:value})}} labelText="Degree/Program: " inputType="text" forProp="degree" />
+           <Label_Input value={eduData.startDate} toTake={(value)=>{getStudyStartDate(value),setEduData({...eduData,startDate:value})}} labelText="Start Date: " inputType="date" forProp="startStudyDate" />
+           <Label_Input value={eduData.endDate} toTake={(value)=>{getStudyEndDate(value),setEduData({...eduData,endDate:value})}} labelText="End Date: " inputType="date" forProp="endStudyDate" />
            <div className="studyQuestion">
             <label htmlFor="studyAns">Do You Still Study Here?</label>
             <div className="studyAnswer">
@@ -130,7 +128,7 @@ function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDat
             <Button type="button" onClick={toClear} text="Clear" theClass="toClear"/>
            </div>
            <div className="dataList">
-            {eduData.map((data,i)=>{
+            {eduDataList.map((data,i)=>{
 
                 return <DataSet editCurrentInfo={()=>toEditInfo(i)} deleteCurrentInfo={()=>toDeleteInfo(i)} schoolName={data.schoolName} key={i}/>
             })}
@@ -139,30 +137,24 @@ function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDat
     )
 }
 //create work history form component
-function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate,getRoleDescription,getIsWorking,workData,setWorkData}){
-    const [workInfo,setWorkInfo]=useState({
-        companyName:'',
-        role:'',
-        workStartDate:'',
-        workEndDate:'',
-        roleDescription:'',
-        isWorking:'',
-    })
+function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate,getRoleDescription,getIsWorking,workDataList,setWorkDataList,workInfo,setWorkInfo}){
+  
     const [editState,setEditState]=useState(false)
     const [index,setIndex]=useState()
     const toSave=(editState,index)=>{
       if(!editState){
-        const updateList=[...workData,workInfo]
-        setWorkData(updateList)
+        const updateList=[...workDataList,workInfo]
+        setWorkDataList(updateList)
       }else{
-       const updatedList=Array.from(workData)
+       const updatedList=Array.from(workDataList)
+       console.log('updated list: ',updatedList)
       updatedList[index].companyName=workInfo.companyName;
       updatedList[index].role=workInfo.role;
       updatedList[index].workStartDate=workInfo.workStartDate;
       updatedList[index].workEndDate=workInfo.workEndDate;
       updatedList[index].roleDescription=workInfo.roleDescription;
       updatedList[index].isWorking=workInfo.isWorking;
-      setWorkData(updatedList);
+      setWorkDataList(updatedList);
        setEditState(false);
       }
       setWorkInfo({
@@ -176,7 +168,7 @@ function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate
     }
     const editInfo=(i)=>{
         setEditState(true)
-      const info=workData[i];
+      const info=workDataList[i];
       setWorkInfo({
         companyName:info.companyName,
         role:info.role,
@@ -188,9 +180,9 @@ function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate
       setIndex(i)
     }
     const deleteInfo=(i)=>{
-        const updatedList=Array.from(workData);
+        const updatedList=Array.from(workDataList);
         updatedList.splice(i,1);
-        setWorkData(updatedList)
+        setWorkDataList(updatedList)
     }
     const toClear=()=>{
         setWorkInfo({
@@ -225,7 +217,7 @@ function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate
             <Button text="Clear" onClick={toClear} theClass="toClear" type="button"/>
            </div>
            <div className="dataList">
-            {workData.map((work,i)=>{
+            {workDataList.map((work,i)=>{
                 return <DataSet editCurrentInfo={()=>editInfo(i)} deleteCurrentInfo={()=>deleteInfo(i)} key={i} role={work.role} />
             })}
            </div>
@@ -233,11 +225,8 @@ function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate
     )
 }
 //create skills form component
-function SkillsInfo({getCategory,getSkillDetail,skillData,setSkillData}){
-    const [skill,setSkill]=useState({
-        category:'',
-        skillsDetail:'',
-    })
+function SkillsInfo({getCategory,getSkillDetail,skillDataList,setSkillDataList,skill,setSkill}){
+   
     const [editState,setEditState]=useState(false)
     const [index,setIndex]=useState()
     const toClear=(e)=>{
@@ -249,13 +238,13 @@ function SkillsInfo({getCategory,getSkillDetail,skillData,setSkillData}){
     }
     const toSave=(editState,index)=>{
      if(!editState){
-        const updateList=[...skillData,skill]
-        setSkillData(updateList)
+        const updateList=[...skillDataList,skill]
+        setSkillDataList(updateList)
      }else{
-       const updatedList=Array.from(skillData);
+       const updatedList=Array.from(skillDataList);
        updatedList[index].category=skill.category;
        updatedList[index].skillsDetail=skill.skillsDetail;
-       setSkillData(updatedList)
+       setSkillDataList(updatedList)
      }
      setSkill({
         category:'',
@@ -267,15 +256,15 @@ function SkillsInfo({getCategory,getSkillDetail,skillData,setSkillData}){
        setIndex(i);
        setEditState(true);
        setSkill({
-        category:skillData[i].category,
-        skillsDetail:skillData[i].skillsDetail
+        category:skillDataList[i].category,
+        skillsDetail:skillDataList[i].skillsDetail
        })
 
     }
     const deleteInfo=(i)=>{
-      const updatedList=Array.from(skillData)
+      const updatedList=Array.from(skillDataList)
       updatedList.splice(i,1);
-      setSkillData(updatedList);
+      setSkillDataList(updatedList);
     }
     return(
         <form id="skills">
@@ -286,7 +275,7 @@ function SkillsInfo({getCategory,getSkillDetail,skillData,setSkillData}){
             <Button onClick={toClear} text="Clear" theClass="toClear"/>
            </div>
            <div className="dataList">
-            {skillData.map((skill,i)=>{
+            {skillDataList.map((skill,i)=>{
                 return <DataSet  editCurrentInfo={()=>editInfo(i)} deleteCurrentInfo={()=>deleteInfo(i)} key={i} skill={skill.category} />
             })}
            </div>
@@ -294,7 +283,37 @@ function SkillsInfo({getCategory,getSkillDetail,skillData,setSkillData}){
     )
 }
 //create formSwitchinteract component
-function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,useStateList}){
+function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,useStateList,cleanData,loadData}){
+    const [data,setData]=useState({
+        firstName:'Ben',
+        lastName:'Andriandfsdfd',
+        email:'ben527466@gmail.com',
+        phone:'+84 977 645 341',
+        location:'District 12,HCMC,Vietnam',
+        occupation:'Student/Web dev',
+        language:'Vietnamese,English,Thai',
+        git:'https://github.com/BenerdAndrian',
+        summary:'4-years of Intelligence Technology,graduaded from prestigious Saigon University,with experiences in building multiple projects spreading throughout many majors, im confident on many languages like C/C++,Python,Javascript,HTML,CSS,Reactjs,react Native,nodejs and databases',
+      })
+      const [eduData,setEduData]=useState({
+        schoolName:'',
+        degree:'',
+        startDate:'',
+        endDate:'',
+        isStudy:'',
+     })
+     const [workInfo,setWorkInfo]=useState({
+        companyName:'',
+        role:'',
+        workStartDate:'',
+        workEndDate:'',
+        roleDescription:'',
+        isWorking:'',
+    })
+    const [skill,setSkill]=useState({
+        category:'',
+        skillsDetail:'',
+    })
    const [theForm,setForm]=useState("general")
    const generateGeneralInfoForm=()=>{
     setForm('general');
@@ -307,6 +326,22 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,
    }
    const generateWorkHistoryForm=()=>{
     setForm('work')
+   }
+  
+   const toClean=()=>{
+    console.log('kaka')
+    cleanData()
+    setData({
+        firstName:'',
+        lastName:'',
+        email:'',
+        phone:'',
+        location:'',
+        occupation:'',
+        language:'',
+        git:'',
+        summary:'',  
+    })
    }
  return(
     <div className="formManipulate">
@@ -339,6 +374,8 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,
       getLanguageValue={(value)=>generalProps.getLanguageValue(value)}
       getGitValue={(value)=>generalProps.getGitValue(value)}
       getSummary={(value)=>generalProps.getSummary(value)}
+      data={data}
+      setData={setData}
       />}
       {theForm==="edu" && <EducationInfo
        getSchoolName={(value)=>eduProps.getSchoolName(value)}
@@ -347,14 +384,18 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,
        getStudyEndDate={(value)=>eduProps.getStudyEndDate(value)}
        getIsStudy={(value)=>eduProps.getIsStudy(value)}
        sendDataList={(value)=>eduProps.sendDataList(value)}
-       eduData={useStateList.eduData}
-       setEduData={useStateList.setEduData}
+       eduDataList={useStateList.eduDataList}
+       setEduDataList={useStateList.setEduDataList}
+       eduData={eduData}
+       setEduData={setEduData}
       />}
       {theForm==="skills" && <SkillsInfo
       getCategory={(value)=>{skillsProps.getCategory(value)}}
       getSkillDetail={(value)=>{skillsProps.getSkillDetail(value)}}
-      skillData={useStateList.skillData}
-      setSkillData={useStateList.setSkillData}
+      skillDataList={useStateList.skillDataList}
+      setSkillDataList={useStateList.setSkillDataList}
+      skill={skill}
+      setSkill={setSkill}
       />}
       {theForm==="work" && <WorkHistoryInfo
       getCompanyName={(value)=>workHistoryProps.getCompanyName(value)}
@@ -364,10 +405,23 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,
       getRoleDescription={(value)=>workHistoryProps.getRoleDescription(value)}
       getIsWorking={(value)=>workHistoryProps.getIsWorking(value)}
       sendWorkInfoList={(value)=>workHistoryProps.sendWorkInfoList(value)}
-      workData={useStateList.workData}
-      setWorkData={useStateList.setWorkData}
+      workDataList={useStateList.workDataList}
+      setWorkDataList={useStateList.setWorkDataList}
+      workInfo={workInfo}
+      setWorkInfo={setWorkInfo}
       />}
     </div>
+    <ul className="btnFunctionList">
+     <li>
+        <Button onClick={toClean} theClass='brushBtn' text="Clean" icon={brushIcon}></Button>
+     </li>
+     <li>
+     <Button onClick={toLoad} theClass="loadBtn" style="backgroundColor:red" text="Load" icon={loadIcon}></Button>
+     </li>
+     <li>
+     <Button  theClass='infoBtn' style="backgroundColor:red" text="Info" icon={infoIcon}></Button>
+     </li>
+    </ul>
     </div>
  )
 }

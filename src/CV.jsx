@@ -7,6 +7,9 @@ import locationIcon from './assets/img/location.svg'
 import languageIcon from './assets/img/language.svg'
 import phoneIcon from './assets/img/phone.svg'
 import gitIcon from './assets/img/github.svg'
+import colorIcon from './assets/img/color.svg'
+import download from './assets/img/download.svg'
+import { Button } from './inputArea'
 function GenerateCV(props){
     //receive data object from props
     const today=new Date();
@@ -19,7 +22,10 @@ function GenerateCV(props){
     console.log(data.isStudy)
     console.log('data ne: ',eduData)
     return (
-        <div id="CV">
+        <div className="container">
+             <h1>Easy CV</h1>
+              <div className="outsideContainer">
+          <div id="CV">
             <div className="CVHeader">
                 <div className="fullname">
                     <span>{data.firstName}</span>
@@ -159,6 +165,19 @@ function GenerateCV(props){
                 </div>
             </div>
         </div>
+        <ul>
+            <li>
+                <Button theClass='funcBtn' icon={download}></Button>
+                <Button theClass='funcBtn' icon={colorIcon}></Button>
+            </li>
+            <li></li>
+        </ul>
+        </div>
+        </div>
+       
+      
+        
+
     )
 }
 export {GenerateCV}

@@ -11,7 +11,7 @@ function App() {
     location:'District 12,HCMC,Vietnam',
     occupation:'Student/Web dev',
     language:'Vietnamese,English,Thai',
-    git:'',
+    git:'https://github.com/BenerdAndrian',
     summary:'4-years of Intelligence Technology,graduaded from prestigious Saigon University,with experiences in building multiple projects spreading throughout many majors, im confident on many languages like C/C++,Python,Javascript,HTML,CSS,Reactjs,react Native,nodejs and databases',
     schoolName:'',
     degree:'',
@@ -27,7 +27,7 @@ function App() {
     skillCategory:'',
     skillDetail:'',
 })
-const [eduData,setEduData]=useState([
+const [eduDataList,setEduDataList]=useState([
   {
     schoolName:'SGU',
     degree:'Bachelor',
@@ -36,7 +36,7 @@ const [eduData,setEduData]=useState([
     isStudy:'false',
   }
 ])
-const [workData,setWorkData]=useState([
+const [workDataList,setWorkDataList]=useState([
   {
         companyName:'Apple Inc',
         role:'Code Janitor',
@@ -46,14 +46,13 @@ const [workData,setWorkData]=useState([
         isWorking:'false',
   }
 ])
-const [skillData,setSkillData]=useState([
+const [skillDataList,setSkillDataList]=useState([
   {
     category:'Front-end Skills',
     skillsDetail:'HTML,CSS,Javascript,ReactJS,React Native,Jest,TailWind,BootsTrap,Git,Webpack,NodeJs,MySQL'
   }
 ])
-console.log("eduData: ",eduData);
-console.log("workData: ",workData)
+
 
 const [generalData,setGeneralData]=useState({
     firstName:"Ben",
@@ -146,7 +145,7 @@ const [generalData,setGeneralData]=useState({
    setData(theData)
   }
   const sendWorkInfoList=(value)=>{
-    setWorkData(value)
+    setWorkDataList(value)
   }
  // define skill data take function
  const getCategory=(value)=>{
@@ -158,7 +157,20 @@ const [generalData,setGeneralData]=useState({
   setData(theData)
  }
  const sendDataList=(value)=>{
-  setEduData(value)
+  setEduDataList(value)
+ }
+ //to clean the data from when clicking on function button
+ const cleanData=()=>{
+  
+    const cleanData=Object.assign({},data);
+    const eduDataListUpdate=[];
+    const workDataListUpdate=[];
+    const skillDataListUpdate=[];
+    Object.entries(cleanData).forEach(([key,value])=>{cleanData[key]=''})
+    setData(cleanData)
+    setEduDataList(eduDataListUpdate)
+    setWorkDataList(workDataListUpdate)
+    setSkillDataList(skillDataListUpdate)
  }
   //store all the generalInfo props inside generalProps
   const generalProps={getFirstNameValue,getLastNameValue,getEmailValue,getPhoneValue,getLocationValue,getOccupationValue,getGitValue,getLanguageValue,getSummary}
@@ -169,11 +181,11 @@ const [generalData,setGeneralData]=useState({
   //store all the skill props inside skillProps
   const skillProps={getCategory,getSkillDetail}
   //store useState 
-  const useStateList={eduData,setEduData,workData,setWorkData,skillData,setSkillData};
+  const useStateList={eduDataList,setEduDataList,workDataList,setWorkDataList,skillDataList,setSkillDataList};
 
   return <div className="theApp">
-   <FormSwitchInteract useStateList={useStateList} skillsProps={skillProps} workHistoryProps={workHistoryProps} generalProps={generalProps} eduProps={eduProps} />
-   <GenerateCV skillData={skillData} workData={workData} eduData={eduData} receive={data}/>
+   <FormSwitchInteract cleanData={cleanData} useStateList={useStateList} skillsProps={skillProps} workHistoryProps={workHistoryProps} generalProps={generalProps} eduProps={eduProps} />
+   <GenerateCV skillData={skillDataList} workData={workDataList} eduData={eduDataList} receive={data}/>
   </div>
  
 }
