@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { FormSwitchInteract } from './form'
 import { GenerateCV } from './CV'
+import{GenerateBox,GenerateBlurLayer} from './inputArea'
 // use useState to store datas receiving from the child and give it to GenerateCV component to render to UI
 function App() {
   const [data,setData]=useState({
@@ -13,20 +14,13 @@ function App() {
     language:'Vietnamese,English,Thai',
     git:'https://github.com/BenerdAndrian',
     summary:'4-years of Intelligence Technology,graduaded from prestigious Saigon University,with experiences in building multiple projects spreading throughout many majors, im confident on many languages like C/C++,Python,Javascript,HTML,CSS,Reactjs,react Native,nodejs and databases',
-    schoolName:'',
-    degree:'',
-    studyStartDate:'',
-    studyEndDate:'',
-    isStudy:'false',
-    companyName:'',
-    role:'',
-    workEndDate:'',
-    workStartDate:'',
-    roleDescription:'',
-    isWorking:'',
-    skillCategory:'',
-    skillDetail:'',
+   
 })
+//to decide if the button of clean,load,info is clicked,if it is clicked then the blurlayer change to true,allow for question box to display
+const [blurLayer,setBlurLayer]=useState(false)
+//to decide if user choose to click Yes which they want it
+const [answer,setAnswer]=useState(false)
+const [load,setLoad]=useState(false)
 const [eduDataList,setEduDataList]=useState([
   {
     schoolName:'SGU',
@@ -161,16 +155,109 @@ const [generalData,setGeneralData]=useState({
  }
  //to clean the data from when clicking on function button
  const cleanData=()=>{
+  setBlurLayer(true)
   
-    const cleanData=Object.assign({},data);
-    const eduDataListUpdate=[];
-    const workDataListUpdate=[];
-    const skillDataListUpdate=[];
-    Object.entries(cleanData).forEach(([key,value])=>{cleanData[key]=''})
-    setData(cleanData)
-    setEduDataList(eduDataListUpdate)
-    setWorkDataList(workDataListUpdate)
-    setSkillDataList(skillDataListUpdate)
+ }
+ const clean=(answer)=>{
+      if(answer){
+        
+          setDataForm({
+            firstName:'',
+            lastName:'',
+            email:'',
+            phone:'',
+            location:'',
+            occupation:'',
+            language:'',
+            git:'',
+            summary:'',  
+        })
+        
+        const cleanData=Object.assign({},data);
+        const eduDataListUpdate=[];
+        const workDataListUpdate=[];
+        const skillDataListUpdate=[];
+        Object.entries(cleanData).forEach(([key,value])=>{cleanData[key]=''})
+        setData(cleanData)
+        setEduDataList(eduDataListUpdate)
+        setWorkDataList(workDataListUpdate)
+        setSkillDataList(skillDataListUpdate)
+        setAnswer(false)
+      }
+ }
+ const [dataForm,setDataForm]=useState({
+  firstName:'Ben',
+  lastName:'Andriandfsdfd',
+  email:'ben527466@gmail.com',
+  phone:'+84 977 645 341',
+  location:'District 12,HCMC,Vietnam',
+  occupation:'Student/Web dev',
+  language:'Vietnamese,English,Thai',
+  git:'https://github.com/BenerdAndrian',
+  summary:'4-years of Intelligence Technology,graduaded from prestigious Saigon University,with experiences in building multiple projects spreading throughout many majors, im confident on many languages like C/C++,Python,Javascript,HTML,CSS,Reactjs,react Native,nodejs and databases',
+})
+const [eduData,setEduData]=useState({
+  schoolName:'',
+  degree:'',
+  startDate:'',
+  endDate:'',
+  isStudy:'',
+})
+const [workInfo,setWorkInfo]=useState({
+  companyName:'',
+  role:'',
+  workStartDate:'',
+  workEndDate:'',
+  roleDescription:'',
+  isWorking:'',
+})
+const [skill,setSkill]=useState({
+  category:'',
+  skillsDetail:'',
+})
+ //to load the data
+ const loadData=()=>{
+  setData({
+    firstName:'Ben',
+    lastName:'Andrian',
+    email:'ben527466@gmail.com',
+    phoneNumber:'+84 977 645 341',
+    location:'District 12,HCMC,Vietnam',
+    occupation:'Student/Web dev',
+    language:'Vietnamese,English,Thai',
+    git:'https://github.com/BenerdAndrian',
+    summary:'4-years of Intelligence Technology,graduaded from prestigious Saigon University,with experiences in building multiple projects spreading throughout many majors, im confident on many languages like C/C++,Python,Javascript,HTML,CSS,Reactjs,react Native,nodejs and databases',
+  })
+  setEduDataList([
+    {
+    
+      schoolName:'SGU',
+      degree:'Bachelor',
+      startDate:'2022-03-03',
+      endDate:'2024-05-05',
+      isStudy:'false',
+    
+  }])
+  setWorkDataList([
+    {
+      
+        companyName:'Apple Inc',
+        role:'Code Janitor',
+        workStartDate:'2020-04-02',
+        workEndDate:'2023-11-22',
+        roleDescription:'Clean code for all Apple Software and floors',
+        isWorking:'false',
+  
+    }
+  ])
+  setSkillDataList([
+    {
+      
+        category:'Front-end Skills',
+        skillsDetail:'HTML,CSS,Javascript,ReactJS,React Native,Jest,TailWind,BootsTrap,Git,Webpack,NodeJs,MySQL'
+      
+    }
+  ])
  }
   //store all the generalInfo props inside generalProps
   const generalProps={getFirstNameValue,getLastNameValue,getEmailValue,getPhoneValue,getLocationValue,getOccupationValue,getGitValue,getLanguageValue,getSummary}
@@ -184,8 +271,15 @@ const [generalData,setGeneralData]=useState({
   const useStateList={eduDataList,setEduDataList,workDataList,setWorkDataList,skillDataList,setSkillDataList};
 
   return <div className="theApp">
-   <FormSwitchInteract cleanData={cleanData} useStateList={useStateList} skillsProps={skillProps} workHistoryProps={workHistoryProps} generalProps={generalProps} eduProps={eduProps} />
+   <FormSwitchInteract  setDataForm={setDataForm} dataForm={dataForm} eduData={eduData} setEduData={setEduData} workInfo={workInfo} setWorkInfo={setWorkInfo} skill={skill} setSkill={setSkill} answer={answer} loadData={loadData} cleanData={cleanData} useStateList={useStateList} skillsProps={skillProps} workHistoryProps={workHistoryProps} generalProps={generalProps} eduProps={eduProps} />
    <GenerateCV skillData={skillDataList} workData={workDataList} eduData={eduDataList} receive={data}/>
+   {blurLayer && <div>
+    <GenerateBlurLayer/>
+    <GenerateBox clean={clean} answer={answer} setAnswer={setAnswer} setBlurLayer={setBlurLayer} heading="Confirmation" text="Are you sure you want to clear all the fields? This action cannot be undone" />
+    </div>
+   }
+   
+  
   </div>
  
 }

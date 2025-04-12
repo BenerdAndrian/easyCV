@@ -8,35 +8,35 @@ import brushIcon from './assets/img/brush.svg'
 import infoIcon from './assets/img/i.svg'
 import loadIcon from './assets/img/load.svg'
 //create generalInfo form component
-function GenerateGeneralInfo({getFirstNameValue,getLastNameValue,getEmailValue,getPhoneValue,getLocationValue,getOccupationValue,getLanguageValue,getGitValue,getSummary,data,setData}){
+function GenerateGeneralInfo({getFirstNameValue,getLastNameValue,getEmailValue,getPhoneValue,getLocationValue,getOccupationValue,getLanguageValue,getGitValue,getSummary,dataForm,setDataForm}){
 
     const takeData=(e)=>{
      getSummary(e.target.value);
-     setData({...data,summary:e.target.value})
+     setDataForm({...dataForm,summary:e.target.value})
   }
     
     return(
         <form id="GeneralInfoForm">
             <div className="formRow">
-            <Label_Input value={data.firstName} toTake={(value)=>{getFirstNameValue(value),setData({...data,firstName:value})}} labelText="First Name: " inputType="text" forProp="fname" defaultValue="Ben" />
-            <Label_Input value={data.lastName} toTake={(value)=>{getLastNameValue(value),setData({...data,lastName:value})}} labelText="Last Name: " inputType="text" forProp="lname" defaultValue="Andrian" />
+            <Label_Input value={dataForm.firstName} toTake={(value)=>{getFirstNameValue(value),setDataForm({...dataForm,firstName:value})}} labelText="First Name: " inputType="text" forProp="fname" defaultValue="Ben" />
+            <Label_Input value={dataForm.lastName} toTake={(value)=>{getLastNameValue(value),setDataForm({...dataForm,lastName:value})}} labelText="Last Name: " inputType="text" forProp="lname" defaultValue="Andrian" />
             </div>
            <div className="formRow">
-           <Label_Input value={data.email} toTake={(value)=>{getEmailValue(value),setData({...data,email:value})}} labelText="Email: " inputType="email" forProp="email" defaultValue="Benerd2243@gmail.com" />
-           <Label_Input value={data.phone} toTake={(value)=>{getPhoneValue(value),setData({...data,phone:value})}} labelText="Phone: " inputType="tel" forProp="phone" defaultValue="+84 988 637 203" />
+           <Label_Input value={dataForm.email} toTake={(value)=>{getEmailValue(value),setDataForm({...dataForm,email:value})}} labelText="Email: " inputType="email" forProp="email" defaultValue="Benerd2243@gmail.com" />
+           <Label_Input value={dataForm.phone} toTake={(value)=>{getPhoneValue(value),setDataForm({...dataForm,phone:value})}} labelText="Phone: " inputType="tel" forProp="phone" defaultValue="+84 988 637 203" />
            </div>
           <div className="formRow">
-          <Label_Input value={data.location} toTake={(value)=>{getLocationValue(value),setData({...data,location:value})}} labelText="Location: " inputType="text" forProp="location" defaultValue="District 12,HCMC,Vietnam" />
-          <Label_Input value={data.occupation} toTake={(value)=>{getOccupationValue(value),setData({...data,occupation:value})}} labelText="Occupation: " inputType="text" forProp="occupation" defaultValue="Student" />
+          <Label_Input value={dataForm.location} toTake={(value)=>{getLocationValue(value),setDataForm({...dataForm,location:value})}} labelText="Location: " inputType="text" forProp="location" defaultValue="District 12,HCMC,Vietnam" />
+          <Label_Input value={dataForm.occupation} toTake={(value)=>{getOccupationValue(value),setDataForm({...dataForm,occupation:value})}} labelText="Occupation: " inputType="text" forProp="occupation" defaultValue="Student" />
           </div>
           <div className="formRow">
-          <Label_Input value={data.language} toTake={(value)=>{getLanguageValue(value),setData({...data,language:value})}} labelText="Languages: " inputType="text" forProp="language" defaultValue="Vietnamese,English" />
-          <Label_Input value={data.git} toTake={(value)=>{getGitValue(value),setData({...data,git:value})}} labelText="Github: " inputType="text" forProp="git" defaultValue="https://github.com/BenerdAndrian" />
+          <Label_Input value={dataForm.language} toTake={(value)=>{getLanguageValue(value),setDataForm({...dataForm,language:value})}} labelText="Languages: " inputType="text" forProp="language" defaultValue="Vietnamese,English" />
+          <Label_Input value={dataForm.git} toTake={(value)=>{getGitValue(value),setDataForm({...dataForm,git:value})}} labelText="Github: " inputType="text" forProp="git" defaultValue="https://github.com/BenerdAndrian" />
           </div>
           
            <div className="summary">
             <label htmlFor="sum">Summary</label>
-            <textarea value={data.summary} onChange={takeData} placeholder="i love coding on the beach..." cols="10" rows="5" name="summary" id="sum"></textarea>
+            <textarea value={dataForm.summary} onChange={takeData} placeholder="i love coding on the beach..." cols="10" rows="5" name="summary" id="sum"></textarea>
            </div>
         </form>
     )
@@ -283,37 +283,9 @@ function SkillsInfo({getCategory,getSkillDetail,skillDataList,setSkillDataList,s
     )
 }
 //create formSwitchinteract component
-function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,useStateList,cleanData,loadData}){
-    const [data,setData]=useState({
-        firstName:'Ben',
-        lastName:'Andriandfsdfd',
-        email:'ben527466@gmail.com',
-        phone:'+84 977 645 341',
-        location:'District 12,HCMC,Vietnam',
-        occupation:'Student/Web dev',
-        language:'Vietnamese,English,Thai',
-        git:'https://github.com/BenerdAndrian',
-        summary:'4-years of Intelligence Technology,graduaded from prestigious Saigon University,with experiences in building multiple projects spreading throughout many majors, im confident on many languages like C/C++,Python,Javascript,HTML,CSS,Reactjs,react Native,nodejs and databases',
-      })
-      const [eduData,setEduData]=useState({
-        schoolName:'',
-        degree:'',
-        startDate:'',
-        endDate:'',
-        isStudy:'',
-     })
-     const [workInfo,setWorkInfo]=useState({
-        companyName:'',
-        role:'',
-        workStartDate:'',
-        workEndDate:'',
-        roleDescription:'',
-        isWorking:'',
-    })
-    const [skill,setSkill]=useState({
-        category:'',
-        skillsDetail:'',
-    })
+function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,useStateList,cleanData,loadData,answer,eduData,setEduData,workInfo,setWorkInfo,skill,setSkill,dataForm,setDataForm}){
+   
+ 
    const [theForm,setForm]=useState("general")
    const generateGeneralInfoForm=()=>{
     setForm('general');
@@ -327,21 +299,27 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,
    const generateWorkHistoryForm=()=>{
     setForm('work')
    }
-  
+   
+   const toLoad=()=>{
+    console.log('keoe')
+    loadData();
+    setDataForm({
+        firstName:'Ben',
+        lastName:'Andriandfsdfd',
+        email:'ben527466@gmail.com',
+        phone:'+84 977 645 341',
+        location:'District 12,HCMC,Vietnam',
+        occupation:'Student/Web dev',
+        language:'Vietnamese,English,Thai',
+        git:'https://github.com/BenerdAndrian',
+        summary:'4-years of Intelligence Technology,graduaded from prestigious Saigon University,with experiences in building multiple projects spreading throughout many majors, im confident on many languages like C/C++,Python,Javascript,HTML,CSS,Reactjs,react Native,nodejs and databases',
+    })
+   }
+
    const toClean=()=>{
+   
     console.log('kaka')
     cleanData()
-    setData({
-        firstName:'',
-        lastName:'',
-        email:'',
-        phone:'',
-        location:'',
-        occupation:'',
-        language:'',
-        git:'',
-        summary:'',  
-    })
    }
  return(
     <div className="formManipulate">
@@ -374,8 +352,8 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,
       getLanguageValue={(value)=>generalProps.getLanguageValue(value)}
       getGitValue={(value)=>generalProps.getGitValue(value)}
       getSummary={(value)=>generalProps.getSummary(value)}
-      data={data}
-      setData={setData}
+      dataForm={dataForm}
+      setDataForm={setDataForm}
       />}
       {theForm==="edu" && <EducationInfo
        getSchoolName={(value)=>eduProps.getSchoolName(value)}
@@ -445,4 +423,5 @@ function DataSet({skill,role,schoolName,deleteCurrentInfo,editCurrentInfo}){
         </div>
     )
 }
+
 export {FormSwitchInteract}

@@ -26,4 +26,31 @@ function Button({text,icon,style,theClass,onClick,type}){
         </button>
     )
 }
-export{Label_Input,Button}
+function GenerateBox({heading,text,setBlurLayer,setAnswer,answer,clean}){
+    const toClose=()=>{
+        setBlurLayer(false)
+    }
+    const toContinue=()=>{
+        const theAnswer=true;
+        setAnswer(theAnswer)
+        clean(true)
+        setBlurLayer(false)
+    }
+    return(
+        <div className="box">
+        <h2>{heading}</h2>
+        <p>{text}</p>
+        
+        <Button onClick={toContinue} text="Yes"/>
+        <Button onClick={toClose} text="No"/>
+   
+       
+        </div>
+    )
+}
+function GenerateBlurLayer(){
+    return <div className="blurLayer">
+    
+    </div>
+}
+export{Label_Input,Button,GenerateBox,GenerateBlurLayer}

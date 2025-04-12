@@ -23,6 +23,7 @@ html{
     padding:1rem;
     height:30%;
     margin-right:0.5rem;
+    box-shadow:10px 10px 25px 1px rgba(0,0,0,0.5)
 }
 .formSwitchBtn button{
     width:70%;
@@ -57,7 +58,7 @@ html{
 #CV{
     display:grid;
     grid-template-rows:min-content 1fr;
-    width:100%;
+    width:850px;
     height:100%;
 }
 .CVHeader{
@@ -168,6 +169,7 @@ html{
     display:flex;
     border:1px solid;
     width:100vw;
+    background-color:rgb(255, 253, 251);
 }
 .contactSection ul li{
     list-style:none;
@@ -229,7 +231,7 @@ ul li .row{
 .dataList{
     overflow-y:auto;
     scroll-behavior: auto;
-    background-color:red;
+    background-color:rgb(218, 29, 29);
     height:10vh;
     padding:1rem;
 }
@@ -244,4 +246,30 @@ ul li .row{
 }
 .skills li{
     list-style:none
+}
+.blurLayer{
+    width:100vw;
+    height:100vh;
+    background-color:black;
+    opacity:0.5;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:998;
+}
+.box{
+    width:40%;
+    position:fixed;
+    z-index:999;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background-color:white;
+    text-align:center;
+}
+.box h2,.box p{
+    margin:1rem 0;
+}
+.box Button:first-child{
+    margin-right:1rem;
 }
