@@ -278,7 +278,6 @@ const [skill,setSkill]=useState({
     <GenerateBox clean={clean} answer={answer} setAnswer={setAnswer} setBlurLayer={setBlurLayer} heading="Confirmation" text="Are you sure you want to clear all the fields? This action cannot be undone" />
     </div>
    }
-   
   
   </div>
  

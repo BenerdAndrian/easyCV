@@ -53,4 +53,24 @@ function GenerateBlurLayer(){
     
     </div>
 }
-export{Label_Input,Button,GenerateBox,GenerateBlurLayer}
+function GenerateColorBoard({color,setColor,setColorBoard,className}){
+    const chooseColor=(value)=>{
+       setColor(value)
+       setColorBoard(false);
+    }
+    return <ul className={className}>
+        <li>
+            <button onClick={()=>chooseColor('brown')} className="colorMarker color1"></button>
+        </li>
+        <li>
+            <button onClick={()=>chooseColor('rgb(10, 10, 100)')} className="colorMarker color2"></button>
+        </li>
+        <li>
+            <button onClick={()=>chooseColor('rgb(177, 102, 11)')} className="colorMarker color3"></button>
+        </li>
+        <li>
+            <button onClick={()=>chooseColor('black')} className="colorMarker color4"></button>
+        </li>
+    </ul>
+}
+export{Label_Input,Button,GenerateBox,GenerateBlurLayer,GenerateColorBoard}

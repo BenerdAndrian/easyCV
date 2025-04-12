@@ -10,6 +10,10 @@ import gitIcon from './assets/img/github.svg'
 import colorIcon from './assets/img/color.svg'
 import download from './assets/img/download.svg'
 import { Button } from './inputArea'
+import {GenerateColorBoard} from './inputArea'
+import { useState } from 'react'
+import {jsPDF} from 'jspdf'
+import html2canvas from 'html2canvas'
 function GenerateCV(props){
     //receive data object from props
     const today=new Date();
@@ -21,12 +25,52 @@ function GenerateCV(props){
     const skillData=props.skillData
     console.log(data.isStudy)
     console.log('data ne: ',eduData)
+    const [colorBoard,setColorBoard]=useState(false)
+    const [color,setColor]=useState()
+    const handleColorBoardDisplay=()=>{
+
+        if(colorBoard) setColorBoard(false);
+        else if(!colorBoard) setColorBoard(true);
+    }
+    const handleDownloadPDF= async ()=>{
+        const cvElement=document.getElementById('CV')
+        if(!cvElement){
+            alert('doesnt found any CV');
+            return;
+        }
+        //use canvas to capture the div
+        const canvas = await html2canvas(cvElement, { scale: 2, useCORS: true });
+        const imgData = canvas.toDataURL('image/png');
+    
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+    
+        const imgWidth = pdfWidth;
+        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+    
+        let heightLeft = imgHeight;
+        let position = 0;
+    
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+    
+        while (heightLeft > 0) {
+          position = position - pdfHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pdfHeight;
+        }
+    
+        pdf.save('my-cv.pdf');
+      
+    }
     return (
         <div className="container">
              <h1>Easy CV</h1>
               <div className="outsideContainer">
           <div id="CV">
-            <div className="CVHeader">
+            <div style={{backgroundColor:color}} className="CVHeader">
                 <div className="fullname">
                     <span>{data.firstName}</span>
                     <span>{data.lastName}</span>
@@ -165,13 +209,18 @@ function GenerateCV(props){
                 </div>
             </div>
         </div>
-        <ul>
+        <div className="buttonFunctionContainer">
+        <ul className="buttonFunction">
             <li>
-                <Button theClass='funcBtn' icon={download}></Button>
-                <Button theClass='funcBtn' icon={colorIcon}></Button>
+                <Button onClick={handleDownloadPDF} theClass='funcBtn' icon={download}></Button>
             </li>
-            <li></li>
+            <li>
+            <Button onClick={handleColorBoardDisplay} theClass='funcBtn' icon={colorIcon}></Button>
+            </li>
         </ul>
+        {colorBoard &&<GenerateColorBoard className='colorBoard' setColorBoard={setColorBoard} color={color} setColor={setColor}/>}
+        </div>
+        
         </div>
         </div>
        

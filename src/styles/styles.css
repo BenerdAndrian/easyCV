@@ -11,7 +11,7 @@ html{
 }
 .formSwitchBtn li{
     list-style:none;
-    font-size:1.5rem;
+    font-size:1rem;
 }
 .formManipulate{
     display:flex;
@@ -170,6 +170,7 @@ html{
     border:1px solid;
     width:100vw;
     background-color:rgb(255, 253, 251);
+    justify-content: center;
 }
 .contactSection ul li{
     list-style:none;
@@ -184,7 +185,7 @@ ul li .row{
     font-weight:bold;
 }
 #CV{
-    height:200vh;
+    height:1500px;
 }
 #CV img{
     width:25px;
@@ -232,7 +233,7 @@ ul li .row{
     overflow-y:auto;
     scroll-behavior: auto;
     background-color:rgb(218, 29, 29);
-    height:10vh;
+    height:7vh;
     padding:1rem;
 }
 .flex{
@@ -272,4 +273,113 @@ ul li .row{
 }
 .box Button:first-child{
     margin-right:1rem;
+}
+.colorBoard{
+    display:flex;
+    flex-direction:column;
+
+}
+
+.colorBoard{
+    background-color:lightgrey;
+    width:min-content;
+    padding:0.5rem;
+}
+.colorBoard .colorMarker{
+    width:30px;
+    height:30px;
+    border-radius:30px;
+    padding:0;
+}
+.colorMarker.color1{
+    background-color:brown;
+}
+.colorMarker.color2{
+    background-color:rgb(10, 10, 100);
+}
+.colorMarker.color3{
+    background-color:rgb(177, 102, 11);
+}
+.colorMarker.color4{
+    background-color:black;
+}
+.buttonFunctionContainer{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+}
+@media screen and (max-width:1600px){
+    .formSwitchBtn li p{
+        display:none;
+    }
+   .btnFunctionList li p{
+    display:none;
+   }
+   .formSwitchBtn nav ul,.btnFunctionList{
+    display:flex;
+    flex-direction:row;
+    margin:0.4rem 0;
+   }
+   .btnFunctionList{
+    margin-top:1.5rem;
+    justify-content:flex-end;
+    margin-right:0.5rem;
+   }
+   .formManipulate{
+    flex-direction: column;
+    margin-right:2rem;
+   }
+   .outsideContainer{
+    flex-direction: column-reverse;
+   }
+   .colorBoard{
+    flex-direction: row;
+    margin-bottom:0.3rem;
+   }
+   .buttonFunctionContainer,.colorBoard,.buttonFunction{
+    display:flex;
+    flex-direction: row;
+   }
+   .funcBtn{
+    margin-right:1rem;
+   }
+   #CV{
+    width:700px;
+   }
+   .dataSetDiv button{
+    padding:0.2rem 0.2rem;
+   }
+}
+@media screen and (max-width:1100px){
+    .theApp{
+        flex-direction:column
+    }
+    #CV{
+        width:800px;
+    }
+    .formGenerate{
+        width:60vw;
+        height:450px;
+    }
+    .formManipulate{
+        margin:auto;
+    }
+    .formSwitchBtn nav ul{
+        justify-content:center;
+        margin-top:2rem;
+    }
+    #CV{
+        display:block;
+        margin:auto;
+        width:95vw;
+    }
+    .container{
+        margin-top:2rem;
+    }
+    .container h1{
+        text-align: center;
+    }
+    .buttonFunction{
+        margin-left:5rem;
+    }
 }
