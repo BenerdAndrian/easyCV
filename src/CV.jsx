@@ -32,6 +32,7 @@ function GenerateCV(props){
         if(colorBoard) setColorBoard(false);
         else if(!colorBoard) setColorBoard(true);
     }
+    //handle the download button
     const handleDownloadPDF= async ()=>{
         const cvElement=document.getElementById('CV')
         if(!cvElement){
@@ -188,8 +189,6 @@ function GenerateCV(props){
                             
                             </li>} )}
                         </ul>
-                           
-                       
                     </div>
                     <div className="skillsSection">
                         <img src={skillIcon} alt="Skill icon" />

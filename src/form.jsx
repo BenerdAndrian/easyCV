@@ -49,21 +49,22 @@ function EducationInfo({getSchoolName,getDegree,getStudyStartDate,getStudyEndDat
     const [index,setIndex]=useState(null);
 
     const toSave=(editState,i)=>{
-      if(!editState){
+      if(!editState || !eduDataList[i]){
         const addedData=[...eduDataList,eduData];
         setEduDataList(addedData)
         const tocheck=document.getElementById('studyAns')
         tocheck.checked=false;
+        setEditState(false)
       }else{
-       
+      
         const updateList=Array.from(eduDataList);
-       updateList[i].schoolName=eduData.schoolName;
-       updateList[i].degree=eduData.degree;
-       updateList[i].startDate=eduData.startDate;
-       updateList[i].endDate=eduData.endDate;
-       updateList[i].isStudy=eduData.isStudy;
-       setEduDataList(updateList);
-       setEditState(false)
+        updateList[i].schoolName=eduData.schoolName;
+        updateList[i].degree=eduData.degree;
+        updateList[i].startDate=eduData.startDate;
+        updateList[i].endDate=eduData.endDate;
+        updateList[i].isStudy=eduData.isStudy;
+        setEduDataList(updateList);
+        setEditState(false)
       }
       setEduData({
         schoolName:'',
@@ -142,9 +143,10 @@ function WorkHistoryInfo({getCompanyName,getRole,getWorkEndDate,getWorkStartDate
     const [editState,setEditState]=useState(false)
     const [index,setIndex]=useState()
     const toSave=(editState,index)=>{
-      if(!editState){
+      if(!editState || !workDataList[index]){
         const updateList=[...workDataList,workInfo]
         setWorkDataList(updateList)
+        setEditState(false)
       }else{
        const updatedList=Array.from(workDataList)
        console.log('updated list: ',updatedList)
@@ -237,9 +239,10 @@ function SkillsInfo({getCategory,getSkillDetail,skillDataList,setSkillDataList,s
         })
     }
     const toSave=(editState,index)=>{
-     if(!editState){
+     if(!editState || !skillDataList[index]){
         const updateList=[...skillDataList,skill]
         setSkillDataList(updateList)
+        setEditState(false)
      }else{
        const updatedList=Array.from(skillDataList);
        updatedList[index].category=skill.category;
@@ -322,7 +325,9 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,
     cleanData()
    }
  return(
-    <div className="formManipulate">
+    <div className="form">
+    <h2>Information Form</h2>
+ <div className="formManipulate">
     <div className="formSwitchBtn">
         <nav>
             <ul>
@@ -401,10 +406,12 @@ function FormSwitchInteract({generalProps,eduProps,skillsProps,workHistoryProps,
      </li>
     </ul>
     </div>
+    </div>
+   
  )
 }
 //create div area component which represents a set of data being added in UI
-function DataSet({skill,role,schoolName,deleteCurrentInfo,editCurrentInfo}){
+function DataSet({skill='',role='',schoolName='',deleteCurrentInfo,editCurrentInfo}){
     const toEdit=(e)=>{
         e.preventDefault();
         editCurrentInfo();
@@ -413,9 +420,15 @@ function DataSet({skill,role,schoolName,deleteCurrentInfo,editCurrentInfo}){
         e.preventDefault()
         deleteCurrentInfo();
     }
+    const handleLength=(name,length)=>{
+      const theName=name.slice(0,length);
+      const stringLength=name.length;
+      if(length<stringLength) return theName + '...'
+      return theName
+    }
     return(
         <div className="dataSetDiv">
-          <h3>{schoolName||role||skill}</h3>
+          <h3>{handleLength(schoolName||role||skill,10)}</h3>
           <div className="btnList">
           <Button onClick={toEdit} text="Edit" theClass="toEdit"/>
           <Button onClick={toDelete} text="Delete" theClass="toDelete"/>
