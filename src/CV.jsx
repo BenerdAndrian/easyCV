@@ -13,7 +13,8 @@ import { Button } from './inputArea'
 import {GenerateColorBoard} from './inputArea'
 import { useState } from 'react'
 import {jsPDF} from 'jspdf'
-import html2canvas from 'html2canvas'
+import html2canvas from 'html2canvas';
+import html2pdf from 'html2pdf.js';
 function GenerateCV(props){
     //receive data object from props
     const today=new Date();
@@ -33,39 +34,70 @@ function GenerateCV(props){
         else if(!colorBoard) setColorBoard(true);
     }
     //handle the download button
-    const handleDownloadPDF= async ()=>{
-        const cvElement=document.getElementById('CV')
-        if(!cvElement){
-            alert('doesnt found any CV');
+    const handleDownloadPDF = async () => {
+        const cvElement = document.getElementById('CV');
+        if (!cvElement) {
+            alert('CV not found');
             return;
         }
-        //use canvas to capture the div
-        const canvas = await html2canvas(cvElement, { scale: 2, useCORS: true });
-        const imgData = canvas.toDataURL('image/png');
+    
+        const scale = 2;
+        const canvas = await html2canvas(cvElement, { scale, useCORS: true });
+    
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
     
         const pdf = new jsPDF('p', 'mm', 'a4');
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
     
         const imgWidth = pdfWidth;
-        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+        const imgHeight = (canvasHeight * imgWidth) / canvasWidth;
     
-        let heightLeft = imgHeight;
+        const pageHeightInPixels = (canvasWidth * pdfHeight) / pdfWidth;
+    
         let position = 0;
+        let pageCount = 0;
     
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
+        while (position < canvasHeight) {
+            const pageSliceHeight = Math.min(pageHeightInPixels, canvasHeight - position);
+            if (pageSliceHeight <= 0) break;
     
-        while (heightLeft > 0) {
-          position = position - pdfHeight;
-          pdf.addPage();
-          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-          heightLeft -= pdfHeight;
+            const pageCanvas = document.createElement('canvas');
+            const pageContext = pageCanvas.getContext('2d');
+    
+            pageCanvas.width = canvasWidth;
+            pageCanvas.height = pageSliceHeight;
+    
+            // Draw part of original canvas
+            pageContext.drawImage(
+                canvas,
+                0, position,
+                canvasWidth, pageSliceHeight,
+                0, 0,
+                canvasWidth, pageSliceHeight
+            );
+    
+            // Convert to image
+            const imgData = pageCanvas.toDataURL('image/png');
+    
+            if (pageCount > 0) pdf.addPage();
+            try {
+                const imgPartHeight = (pageCanvas.height * imgWidth) / canvasWidth;
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgPartHeight);
+            } catch (err) {
+                console.error('Error adding image to PDF:', err);
+                alert('Failed to generate one of the PDF pages. Try again.');
+                return;
+            }
+    
+            position += pageHeightInPixels;
+            pageCount++;
         }
     
         pdf.save('my-cv.pdf');
-      
-    }
+    };
+    
     return (
         <div className="container">
              <h1>Easy CV</h1>
