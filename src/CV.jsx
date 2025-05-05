@@ -34,65 +34,22 @@ function GenerateCV(props){
         else if(!colorBoard) setColorBoard(true);
     }
     //handle the download button
-const handleDownloadPDF = async () => {
-    const cvElement = document.getElementById('CV');
-    if (!cvElement) {
-        alert('CV not found');
-        return;
-    }
-
-    const scale = 2;
-    const canvas = await html2canvas(cvElement, {
-        scale,
-        useCORS: true,
-        logging: true, // helpful for debugging
-        windowWidth: document.body.scrollWidth,
-        windowHeight: document.body.scrollHeight
-    });
-
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
-
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
-
-    // Convert PDF dimensions to pixel ratio of canvas
-    const ratio = canvasWidth / pdfWidth;
-    const pageHeightInPixels = pdfHeight * ratio;
-
-    let position = 0;
-    let pageCount = 0;
-
-    while (position < canvasHeight) {
-        const pageCanvas = document.createElement('canvas');
-        const pageContext = pageCanvas.getContext('2d');
-
-        const sliceHeight = Math.min(pageHeightInPixels, canvasHeight - position);
-        pageCanvas.width = canvasWidth;
-        pageCanvas.height = sliceHeight;
-
-        pageContext.drawImage(
-            canvas,
-            0, position,
-            canvasWidth, sliceHeight,
-            0, 0,
-            canvasWidth, sliceHeight
-        );
-
-        const imgData = pageCanvas.toDataURL('image/png');
-        const imgHeight = (sliceHeight * pdfWidth) / canvasWidth;
-
-        if (pageCount > 0) pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, imgHeight);
-
-        position += sliceHeight;
-        pageCount++;
-    }
-
-    pdf.save('my-cv.pdf');
-};
-
+    const downloadPDF = () => {
+        const input = document.getElementById("CV");
+        html2canvas(input, {
+            scale: 2,
+            useCORS: true,
+        }).then((canvas) => {
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF("p", "mm", "a4");
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    
+            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+            pdf.save("CV.pdf");
+        });
+    };
+    
     return (
         <div className="container">
              <h1>Easy CV</h1>
@@ -238,7 +195,7 @@ const handleDownloadPDF = async () => {
         <div className="buttonFunctionContainer">
         <ul className="buttonFunction">
             <li>
-                <Button onClick={handleDownloadPDF} theClass='funcBtn' icon={download}></Button>
+                <Button onClick={downloadPDF} theClass='funcBtn' icon={download}></Button>
             </li>
             <li>
             <Button onClick={handleColorBoardDisplay} theClass='funcBtn' icon={colorIcon}></Button>

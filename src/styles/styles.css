@@ -279,14 +279,13 @@ ul li .row{
 .colorBoard{
     display:flex;
     flex-direction:column;
-
+    border-radius:1.5rem;
 }
 
 .colorBoard{
     background-color:lightgrey;
     width:min-content;
-    padding:0.5rem;
-
+    padding:0.3rem 0.5rem 0.3rem 0.8rem;
 }
 .colorBoard .colorMarker{
     width:30px;
